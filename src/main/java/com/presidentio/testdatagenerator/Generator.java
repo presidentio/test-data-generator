@@ -4,12 +4,13 @@ import com.presidentio.testdatagenerator.cons.TypeConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.context.Parent;
 import com.presidentio.testdatagenerator.model.*;
-import com.presidentio.testdatagenerator.output.ConsoleSink;
 import com.presidentio.testdatagenerator.output.Sink;
+import com.presidentio.testdatagenerator.output.SinkFactory;
 import com.presidentio.testdatagenerator.provider.ValueProvider;
 import com.presidentio.testdatagenerator.provider.ValueProviderFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vitaliy on 23.01.2015.
@@ -17,16 +18,18 @@ import java.util.*;
 public class Generator {
 
     private static ValueProviderFactory valueProviderFactory = new ValueProviderFactory();
+    private static SinkFactory sinkFactory = new SinkFactory();
 
     public void generate(Schema schema) {
         Context context = buildContext(schema);
         for (String rootTemplateId : schema.getRoot()) {
             Template rootTemplate = context.getTemplates().get(rootTemplateId);
             if (rootTemplate == null) {
-                throw new RuntimeException("Template with id does not defined: " + rootTemplateId);
+                throw new IllegalArgumentException("Template with id does not defined: " + rootTemplateId);
             }
             generateEntity(context, rootTemplate);
         }
+        context.getSink().close();
     }
 
     private void generateEntity(Context context, Template template) {
@@ -40,7 +43,7 @@ public class Generator {
             for (String childTemplateId : template.getChild()) {
                 Template childTemplate = context.getTemplates().get(childTemplateId);
                 if (childTemplate == null) {
-                    throw new RuntimeException("Template with id does not defined: " + childTemplateId);
+                    throw new IllegalArgumentException("Template with id does not defined: " + childTemplateId);
                 }
                 context.setParent(new Parent(entity, context.getParent()));
                 generateEntity(context, childTemplate);
@@ -87,7 +90,7 @@ public class Generator {
     }
 
     private Sink buildSink(Output output) {
-        return new ConsoleSink();
+        return sinkFactory.getSink(output);
     }
 
 }

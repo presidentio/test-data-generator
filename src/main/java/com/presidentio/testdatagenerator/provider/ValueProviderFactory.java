@@ -27,7 +27,7 @@ public class ValueProviderFactory {
             case ValueProviderNameConst.RANDOM:
                 return new RandomProvider(props);
             default:
-                throw new RuntimeException("Unknown value provider: " + provider.getName());
+                throw new IllegalArgumentException("Unknown value provider: " + provider.getName());
         }
     }
 

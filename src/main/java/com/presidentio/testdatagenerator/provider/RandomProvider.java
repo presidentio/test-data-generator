@@ -1,6 +1,6 @@
 package com.presidentio.testdatagenerator.provider;
 
-import com.presidentio.testdatagenerator.cons.PropCons;
+import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.cons.TypeConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
@@ -19,8 +19,8 @@ public class RandomProvider implements ValueProvider {
     private Random random = new Random();
 
     public RandomProvider(Map<String, String> props) {
-        if (props.containsKey(PropCons.SIZE)) {
-            size = Long.valueOf(props.remove(PropCons.SIZE));
+        if (props.containsKey(PropConst.SIZE)) {
+            size = Long.valueOf(props.remove(PropConst.SIZE));
         }
         if (!props.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for RandomProvider: " + props);

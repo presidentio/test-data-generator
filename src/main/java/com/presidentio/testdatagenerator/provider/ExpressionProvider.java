@@ -1,6 +1,6 @@
 package com.presidentio.testdatagenerator.provider;
 
-import com.presidentio.testdatagenerator.cons.PropCons;
+import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.cons.TypeConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
@@ -17,8 +17,8 @@ public class ExpressionProvider implements ValueProvider {
     private String expr;
 
     public ExpressionProvider(Map<String, String> props) {
-        if (props.containsKey(PropCons.EXPR)) {
-            expr = props.remove(PropCons.EXPR);
+        if (props.containsKey(PropConst.EXPR)) {
+            expr = props.remove(PropConst.EXPR);
         }
         if (!props.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);

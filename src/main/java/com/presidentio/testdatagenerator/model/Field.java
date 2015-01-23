@@ -11,6 +11,15 @@ public class Field {
 
     private Provider provider;
 
+    public Field() {
+    }
+
+    public Field(String name, String type, Provider provider) {
+        this.name = name;
+        this.type = type;
+        this.provider = provider;
+    }
+
     public String getName() {
         return name;
     }

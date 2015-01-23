@@ -1,6 +1,7 @@
 package com.presidentio.testdatagenerator.provider;
 
-import com.presidentio.testdatagenerator.cons.PropCons;
+import com.presidentio.testdatagenerator.cons.PropConst;
+import com.presidentio.testdatagenerator.cons.TypeConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
 
@@ -17,8 +18,8 @@ public class EmailProvider implements ValueProvider<String> {
     private String domain = "email.com";
 
     public EmailProvider(Map<String, String> props) {
-        if (props.containsKey(PropCons.DOMAIN)) {
-            domain = props.remove(PropCons.DOMAIN);
+        if (props.containsKey(PropConst.DOMAIN)) {
+            domain = props.remove(PropConst.DOMAIN);
         }
         if (!props.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);
@@ -28,6 +29,10 @@ public class EmailProvider implements ValueProvider<String> {
 
     @Override
     public String nextValue(Context context, Field field) {
+        if (!field.getType().equals(TypeConst.STRING)) {
+            throw new IllegalArgumentException("Illegal type for email required " + TypeConst.STRING + ": "
+                    + field.getType());
+        }
         return randomProvider.nextValue(context, field).toString() + "@" + domain;
     }
 

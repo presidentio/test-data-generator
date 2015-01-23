@@ -1,6 +1,6 @@
 package com.presidentio.testdatagenerator.provider;
 
-import com.presidentio.testdatagenerator.cons.PropCons;
+import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.cons.TypeConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
@@ -15,7 +15,7 @@ public class ConstValueProvider implements ValueProvider {
     private String value;
 
     public ConstValueProvider(Map<String, String> props) {
-        value = props.remove(PropCons.VALUE);
+        value = props.remove(PropConst.VALUE);
         if (value == null) {
             throw new IllegalArgumentException("Value does not specified or null");
         }

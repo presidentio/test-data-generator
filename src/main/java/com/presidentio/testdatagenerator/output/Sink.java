@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public interface Sink {
 
-    public void process(Template template, Map<String, Object> map);
+    void process(Template template, Map<String, Object> map);
+
+    void close();
 
 }
