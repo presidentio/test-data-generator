@@ -11,6 +11,14 @@ public class Provider {
 
     private HashMap<String, String> props;
 
+    public Provider() {
+    }
+
+    public Provider(String name, HashMap<String, String> props) {
+        this.name = name;
+        this.props = props;
+    }
+
     public String getName() {
         return name;
     }

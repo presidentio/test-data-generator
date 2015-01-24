@@ -7,8 +7,6 @@ import java.util.List;
  */
 public class Schema {
 
-    private String format;
-
     private List<Template> templates;
 
     private List<String> root;
@@ -16,14 +14,6 @@ public class Schema {
     private List<Variable> variables;
 
     private Output output;
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
 
     public List<Template> getTemplates() {
         return templates;

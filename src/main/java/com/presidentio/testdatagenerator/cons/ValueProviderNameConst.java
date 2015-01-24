@@ -9,5 +9,7 @@ public class ValueProviderNameConst {
     public static final String EXPR = "expr";
     public static final String EMAIL = "email";
     public static final String RANDOM = "random";
+    public static final String SELECT = "select";
+    public static final String PEOPLE_NAME = "people-name";
 
 }

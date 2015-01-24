@@ -1,0 +1,150 @@
+{
+  "type": "object",
+  "properties": {
+    "output": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["sql-file"]
+        },
+        "props": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "type",
+        "props"
+      ]
+    },
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": false,
+      "additionalItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": false,
+            "additionalItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "string",
+                    "int",
+                    "long",
+                    "boolean"
+                  ]
+                },
+                "provider": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "enum": [
+                        "const",
+                        "expr",
+                        "email",
+                        "random"
+                      ]
+                    },
+                    "props": {
+                      "type": "object",
+                      "title": "Povider properties",
+                      "properties": {
+                        "expr": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "child": {
+            "type": "array",
+            "items":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "variables": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": false,
+      "additionalItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string",
+              "int",
+              "long",
+              "boolean"
+            ]
+          },
+          "initValue": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "root": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": false,
+      "additionalItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "data-type": {
+      "type": "string",
+      "enum": [
+        "string",
+        "int",
+        "long",
+        "boolean"
+      ]
+    }
+  },
+  "required": [
+    "output",
+    "templates",
+    "variables",
+    "root"
+  ]
+}

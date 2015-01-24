@@ -11,5 +11,7 @@ public class PropConst {
     public static final String DOMAIN = "domain";
     public static final String EXPR = "expr";
     public static final String FILE = "file";
+    public static final String DELIMITER = "delimiter";
+    public static final String ITEMS = "items";
 
 }

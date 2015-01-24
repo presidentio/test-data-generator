@@ -1,5 +1,4 @@
 {
-  "format": "sql",
   "output": {
     "type": "sql-file",
     "props": {

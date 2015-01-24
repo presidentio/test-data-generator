@@ -17,8 +17,9 @@ public class ExpressionProvider implements ValueProvider {
     private String expr;
 
     public ExpressionProvider(Map<String, String> props) {
-        if (props.containsKey(PropConst.EXPR)) {
-            expr = props.remove(PropConst.EXPR);
+        expr = props.remove(PropConst.EXPR);
+        if (expr == null) {
+            throw new IllegalArgumentException("Value does not specified or null");
         }
         if (!props.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);
