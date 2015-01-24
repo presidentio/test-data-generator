@@ -57,9 +57,10 @@ Write sql formatted data to file.
 Properties:
 * *file* - required, file to save sql.
 
-** Schema example
+## Schema example
 
-`{
+```
+{
   "output": {
     "type": "sql-file",
     "props": {
@@ -243,4 +244,5 @@ Properties:
     "user1",
     "user2"
   ]
-}`
+}
+```
