@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by Vitaliy on 24.01.2015.
  */
-public class PreopleNameValueProviderTest {
+public class PeopleNameValueProviderTest {
 
     @Test
     public void testNextValue() throws Exception {
