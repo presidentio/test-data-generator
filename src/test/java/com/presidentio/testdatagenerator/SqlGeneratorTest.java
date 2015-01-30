@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AllGeneratorTest extends AbstractSqlFileTest {
+public class SqlGeneratorTest extends AbstractSqlTest {
 
     @Override
     protected String getSchemaResource() {

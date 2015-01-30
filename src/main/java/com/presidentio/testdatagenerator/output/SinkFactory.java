@@ -12,8 +12,10 @@ public class SinkFactory {
         switch (output.getType()) {
             case SinkTypeConst.CONSOLE:
                 return new ConsoleSink(output.getProps());
-            case SinkTypeConst.SQL_FILE:
-                return new SqlFileSink(output.getProps());
+            case SinkTypeConst.SQL:
+                return new SqlSink(output.getProps());
+            case SinkTypeConst.ES:
+                return new EsSink(output.getProps());
             default:
                 throw new IllegalArgumentException("Unknown sink type: " + output.getType());
         }

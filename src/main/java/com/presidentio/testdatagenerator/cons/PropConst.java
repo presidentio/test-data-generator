@@ -13,5 +13,6 @@ public class PropConst {
     public static final String FILE = "file";
     public static final String DELIMITER = "delimiter";
     public static final String ITEMS = "items";
+    public static final String INDEX = "index";
 
 }

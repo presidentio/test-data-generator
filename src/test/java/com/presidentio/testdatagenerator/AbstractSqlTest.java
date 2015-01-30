@@ -19,7 +19,7 @@ import java.sql.SQLException;
  * Time: 22:13
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractSqlFileTest extends AbstractGeneratorTest {
+public abstract class AbstractSqlTest extends AbstractGeneratorTest {
 
     private Connection connection;
 
@@ -45,8 +45,8 @@ public abstract class AbstractSqlFileTest extends AbstractGeneratorTest {
 
     private void executeSqlFile(String file) throws IOException {
         try {
-            ScriptRunner scriptRunner = new ScriptRunner(connection, true, true);
-            scriptRunner.runScript(new FileReader(file));
+            SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(connection, true, true);
+            sqlScriptRunner.runScript(new FileReader(file));
         } catch (SQLException e) {
             throw new IOException(e);
         }
@@ -59,8 +59,8 @@ public abstract class AbstractSqlFileTest extends AbstractGeneratorTest {
             throw new RuntimeException(e);
         }
         Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:test_data_generator", "sa", "");
-        ScriptRunner scriptRunner = new ScriptRunner(conn, true, true);
-        scriptRunner.runScript(new InputStreamReader(AllGeneratorTest.class.getClassLoader()
+        SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(conn, true, true);
+        sqlScriptRunner.runScript(new InputStreamReader(SqlGeneratorTest.class.getClassLoader()
                 .getResourceAsStream(getDbSchemaResource())));
         return conn;
     }
@@ -70,7 +70,7 @@ public abstract class AbstractSqlFileTest extends AbstractGeneratorTest {
     }
 
     protected String getDbSchemaResource(){
-        return "test-db-shema.sql";
+        return "test-db-schema.sql";
     }
 
 }

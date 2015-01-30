@@ -9,7 +9,7 @@ import java.sql.*;
 /**
  * Tool to run database scripts
  */
-public class ScriptRunner {
+public class SqlScriptRunner {
 
     private static final String DEFAULT_DELIMITER = ";";
 
@@ -27,8 +27,8 @@ public class ScriptRunner {
     /**
      * Default constructor
      */
-    public ScriptRunner(Connection connection, boolean autoCommit,
-                        boolean stopOnError) {
+    public SqlScriptRunner(Connection connection, boolean autoCommit,
+                           boolean stopOnError) {
         this.connection = connection;
         this.autoCommit = autoCommit;
         this.stopOnError = stopOnError;

@@ -6,6 +6,7 @@ package com.presidentio.testdatagenerator.cons;
 public class SinkTypeConst {
 
     public static final String CONSOLE = "console";
-    public static final String SQL_FILE = "sql-file";
+    public static final String SQL = "sql";
+    public static final String ES = "es";
 
 }

@@ -1,0 +1,18 @@
+{
+        "user": {
+            "properties": {
+                "id": {
+                    "type": "long",
+                    "index": "not_analyzed"
+                },
+                "email": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "name": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+}

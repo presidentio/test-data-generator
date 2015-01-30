@@ -1,0 +1,22 @@
+{
+        "exercise": {
+            "properties": {
+                "id": {
+                    "type": "long",
+                    "index": "not_analyzed"
+                },
+                "name": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "userId": {
+                    "type": "long",
+                    "index": "not_analyzed"
+                },
+                "trainingId": {
+                    "type": "long",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+}
