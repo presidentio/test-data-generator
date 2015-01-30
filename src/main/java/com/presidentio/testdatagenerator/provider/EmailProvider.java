@@ -6,6 +6,7 @@ import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,11 +19,12 @@ public class EmailProvider implements ValueProvider<String> {
     private String domain = "email.com";
 
     public EmailProvider(Map<String, String> props) {
-        if (props.containsKey(PropConst.DOMAIN)) {
-            domain = props.remove(PropConst.DOMAIN);
+        Map<String, String> propsCopy = new HashMap<>(props);
+        if (propsCopy.containsKey(PropConst.DOMAIN)) {
+            domain = propsCopy.remove(PropConst.DOMAIN);
         }
-        if (!props.isEmpty()) {
-            throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);
+        if (!propsCopy.isEmpty()) {
+            throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + propsCopy);
         }
         randomProvider = new RandomProvider(Collections.<String, String>emptyMap());
     }

@@ -5,6 +5,7 @@ import com.presidentio.testdatagenerator.cons.TypeConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,12 +16,13 @@ public class ConstValueProvider implements ValueProvider {
     private String value;
 
     public ConstValueProvider(Map<String, String> props) {
-        value = props.remove(PropConst.VALUE);
+        Map<String, String> propsCopy = new HashMap<>(props);
+        value = propsCopy.remove(PropConst.VALUE);
         if (value == null) {
             throw new IllegalArgumentException("Value does not specified or null");
         }
-        if (!props.isEmpty()) {
-            throw new IllegalArgumentException("Redundant props for ConstValueProvider: " + props);
+        if (!propsCopy.isEmpty()) {
+            throw new IllegalArgumentException("Redundant props for ConstValueProvider: " + propsCopy);
         }
     }
 

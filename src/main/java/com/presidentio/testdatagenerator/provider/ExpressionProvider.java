@@ -7,6 +7,7 @@ import com.presidentio.testdatagenerator.model.Field;
 import org.mvel2.MVEL;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,12 +18,13 @@ public class ExpressionProvider implements ValueProvider {
     private String expr;
 
     public ExpressionProvider(Map<String, String> props) {
-        expr = props.remove(PropConst.EXPR);
+        Map<String, String> propsCopy = new HashMap<>(props);
+        expr = propsCopy.remove(PropConst.EXPR);
         if (expr == null) {
             throw new IllegalArgumentException("Value does not specified or null");
         }
-        if (!props.isEmpty()) {
-            throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);
+        if (!propsCopy.isEmpty()) {
+            throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + propsCopy);
         }
     }
 

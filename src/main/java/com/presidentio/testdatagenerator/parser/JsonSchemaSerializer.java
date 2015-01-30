@@ -2,6 +2,8 @@ package com.presidentio.testdatagenerator.parser;
 
 import com.presidentio.testdatagenerator.model.Schema;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.deser.StdDeserializerProvider;
+import org.codehaus.jackson.map.module.SimpleDeserializers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +14,15 @@ import java.io.OutputStream;
  */
 public class JsonSchemaSerializer implements SchemaSerializer {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
+
+    public JsonSchemaSerializer() {
+        objectMapper = new ObjectMapper();
+        SimpleDeserializers simpleDeserializers = new SimpleDeserializers();
+        simpleDeserializers.addDeserializer(String.class, new StringDeserializer());
+        objectMapper.setDeserializerProvider(
+                new StdDeserializerProvider().withAdditionalDeserializers(simpleDeserializers));
+    }
 
     @Override
     public Schema deserialize(InputStream inputStream) throws IOException {

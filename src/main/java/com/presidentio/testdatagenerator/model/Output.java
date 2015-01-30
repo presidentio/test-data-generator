@@ -1,5 +1,10 @@
 package com.presidentio.testdatagenerator.model;
 
+import com.presidentio.testdatagenerator.parser.StringDeserializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonFilter;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.util.Map;
 
 /**
@@ -9,6 +14,7 @@ public class Output {
 
     private String type;
 
+    @JsonDeserialize(contentUsing = StringDeserializer.class)
     private Map<String, String> props;
 
     public String getType() {

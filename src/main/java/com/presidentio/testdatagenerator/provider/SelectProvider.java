@@ -4,6 +4,7 @@ import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,10 +19,11 @@ public class SelectProvider implements ValueProvider {
     private Random random = new Random();
 
     public SelectProvider(Map<String, String> props) {
-        if (props.containsKey(PropConst.DELIMITER)) {
-            delimiter = props.remove(PropConst.DELIMITER);
+        Map<String, String> propsCopy = new HashMap<>(props);
+        if (propsCopy.containsKey(PropConst.DELIMITER)) {
+            delimiter = propsCopy.remove(PropConst.DELIMITER);
         }
-        String items = props.remove(PropConst.ITEMS);
+        String items = propsCopy.remove(PropConst.ITEMS);
         if (items == null) {
             throw new IllegalArgumentException("Items does not specified or null");
         }
@@ -29,8 +31,8 @@ public class SelectProvider implements ValueProvider {
         if (this.items.length <= 0) {
             throw new IllegalArgumentException("Items are empty");
         }
-        if (!props.isEmpty()) {
-            throw new IllegalArgumentException("Redundant props for RandomProvider: " + props);
+        if (!propsCopy.isEmpty()) {
+            throw new IllegalArgumentException("Redundant props for RandomProvider: " + propsCopy);
         }
     }
 

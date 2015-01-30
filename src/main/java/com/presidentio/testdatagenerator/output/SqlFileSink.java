@@ -6,6 +6,7 @@ import com.presidentio.testdatagenerator.model.Field;
 import com.presidentio.testdatagenerator.model.Template;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,12 +22,13 @@ public class SqlFileSink implements Sink {
     private BufferedOutputStream outputStream;
 
     public SqlFileSink(Map<String, String> props) {
-        file = props.remove(PropConst.FILE);
+        Map<String, String> propsCopy = new HashMap<>(props);
+        file = propsCopy.remove(PropConst.FILE);
         if (file == null) {
             throw new IllegalArgumentException(PropConst.FILE + " does not specified or null");
         }
-        if (!props.isEmpty()) {
-            throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);
+        if (!propsCopy.isEmpty()) {
+            throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + propsCopy);
         }
         try {
             outputStream = new BufferedOutputStream(new FileOutputStream(file));
