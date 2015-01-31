@@ -1,5 +1,6 @@
 package com.presidentio.testdatagenerator.parser;
 
+import com.presidentio.testdatagenerator.cons.StringPlaceholderConst;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
@@ -35,7 +36,7 @@ public class StringDeserializer extends JsonDeserializer<String> {
 
     private String evaluate(String s) {
         switch (s) {
-            case "tmp":
+            case StringPlaceholderConst.TMP:
                 return System.getProperty("java.io.tmpdir");
             default:
                 throw new IllegalArgumentException("Unknown expression: " + s);

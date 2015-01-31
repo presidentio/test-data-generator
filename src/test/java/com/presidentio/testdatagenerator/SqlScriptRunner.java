@@ -1,3 +1,16 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.presidentio.testdatagenerator;
 
 import java.io.IOException;
@@ -42,8 +55,7 @@ public class SqlScriptRunner {
     /**
      * Setter for logWriter property
      *
-     * @param logWriter
-     *            - the new value of the logWriter property
+     * @param logWriter - the new value of the logWriter property
      */
     public void setLogWriter(PrintWriter logWriter) {
         this.logWriter = logWriter;
@@ -52,8 +64,7 @@ public class SqlScriptRunner {
     /**
      * Setter for errorLogWriter property
      *
-     * @param errorLogWriter
-     *            - the new value of the errorLogWriter property
+     * @param errorLogWriter - the new value of the errorLogWriter property
      */
     public void setErrorLogWriter(PrintWriter errorLogWriter) {
         this.errorLogWriter = errorLogWriter;
@@ -62,8 +73,7 @@ public class SqlScriptRunner {
     /**
      * Runs an SQL script (read in using the Reader parameter)
      *
-     * @param reader
-     *            - the source of the script
+     * @param reader - the source of the script
      */
     public void runScript(Reader reader) throws IOException, SQLException {
         try {
@@ -89,14 +99,10 @@ public class SqlScriptRunner {
      * Runs an SQL script (read in using the Reader parameter) using the
      * connection passed in
      *
-     * @param conn
-     *            - the connection to use for the script
-     * @param reader
-     *            - the source of the script
-     * @throws SQLException
-     *             if any SQL errors occur
-     * @throws IOException
-     *             if there is an error reading from the Reader
+     * @param conn   - the connection to use for the script
+     * @param reader - the source of the script
+     * @throws SQLException if any SQL errors occur
+     * @throws IOException  if there is an error reading from the Reader
      */
     private void runScript(Connection conn, Reader reader) throws IOException,
             SQLException {
@@ -113,10 +119,8 @@ public class SqlScriptRunner {
                     println(trimmedLine);
                 } else if (trimmedLine.length() < 1
                         || trimmedLine.startsWith("//")) {
-                    // Do nothing
                 } else if (trimmedLine.length() < 1
                         || trimmedLine.startsWith("--")) {
-                    // Do nothing
                 } else if (!fullLineDelimiter
                         && trimmedLine.endsWith(getDelimiter())
                         || fullLineDelimiter
