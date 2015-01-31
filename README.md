@@ -50,199 +50,222 @@ Return real name.
 
 Print all generate data to the System.out
 
-##### sql-file
+##### sql
 
 Write sql formatted data to file.
 
 Properties:
-* *file* - required, file to save sql.
+* *file* - required, file to save sql
+
+##### es
+
+Write Elastic Search bulk formatted data to file.
+
+Properties:
+* *file* - required, file to save json
+* *index* - required, index name
+
+## Placeholders
+
+You can user placeholder in any string field value. Placeholder format is ${placeholder_name}.
+
+##### Available:
+* ${tmp} - replacing with path to tmp directory
+
 
 ## Schema example
 
 ```
 {
-  "output": {
-    "type": "sql-file",
-    "props": {
-      "file": "./a.sql"
-    }
-  },
-  "templates": [
-    {
-      "id": "user1",
-      "count": 10,
-      "name": "user",
-      "fields": [
-        {
-          "name": "id",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "userId++"
-            }
-          }
-        },
-        {
-          "name": "email",
-          "type": "string",
-          "provider": {
-            "name": "email"
-          }
+    "output": {
+        "type": "sql-file",
+        "props": {
+            "file": "${tmp}/a.sql"
         }
-      ],
-      "child": [
-        "training1"
-      ]
     },
-    {
-      "id": "user2",
-      "count": 1,
-      "name": "user",
-      "fields": [
+    "templates": [
         {
-          "name": "id",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "userId++"
-            }
-          }
+            "id": "user1",
+            "count": 10,
+            "name": "user",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "userId++"
+                        }
+                    }
+                },
+                {
+                    "name": "email",
+                    "type": "string",
+                    "provider": {
+                        "name": "email"
+                    }
+                } ,
+                {
+                    "name": "name",
+                    "type": "string",
+                    "provider": {
+                        "name": "people-name"
+                    }
+                }
+            ],
+            "child": [
+                "training1"
+            ]
         },
         {
-          "name": "email",
-          "type": "string",
-          "provider": {
-            "name": "const",
-            "props": {
-              "value": "test@email.com"
-            }
-          }
+            "id": "user2",
+            "count": 1,
+            "name": "user",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "userId++"
+                        }
+                    }
+                },
+                {
+                    "name": "email",
+                    "type": "string",
+                    "provider": {
+                        "name": "const",
+                        "props": {
+                            "value": "test@email.com"
+                        }
+                    }
+                }
+            ],
+            "child": [
+                "training1"
+            ]
+        },
+        {
+            "id": "training1",
+            "count": 5,
+            "name": "training",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "trainingId++"
+                        }
+                    }
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "provider": {
+                        "name": "random",
+                        "props": {
+                            "size": 10
+                        }
+                    }
+                },
+                {
+                    "name": "week",
+                    "type": "int",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "0 | 1 | 8"
+                        }
+                    }
+                },
+                {
+                    "name": "userId",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "parent.id"
+                        }
+                    }
+                }
+            ],
+            "child":[
+                "exercise1"
+            ]
+        },
+        {
+            "id": "exercise1",
+            "count": 5,
+            "name": "exercise",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "exerciseId++"
+                        }
+                    }
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "provider": {
+                        "name": "random",
+                        "props": {
+                            "size": 10
+                        }
+                    }
+                },
+                {
+                    "name": "userId",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "parent.parent.id"
+                        }
+                    }
+                },
+                {
+                    "name": "trainingId",
+                    "type": "long",
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "parent.id"
+                        }
+                    }
+                }
+            ]
         }
-      ],
-      "child": [
-        "training1"
-      ]
-    },
-    {
-      "id": "training1",
-      "count": 5,
-      "name": "training",
-      "fields": [
+    ],
+    "variables": [
         {
-          "name": "id",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "trainingId++"
-            }
-          }
+            "name": "userId",
+            "type": "long",
+            "initValue": "1"
         },
         {
-          "name": "name",
-          "type": "string",
-          "provider": {
-            "name": "random",
-            "props": {
-              "size": 10
-            }
-          }
+            "name": "trainingId",
+            "type": "long",
+            "initValue": "1"
         },
         {
-          "name": "week",
-          "type": "int",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "0 | 1 | 8"
-            }
-          }
-        },
-        {
-          "name": "userId",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "parent.id"
-            }
-          }
+            "name": "exerciseId",
+            "type": "long",
+            "initValue": "1"
         }
-      ],
-      "child":[
-        "exercise1"
-      ]
-    },
-    {
-      "id": "exercise1",
-      "count": 5,
-      "name": "exercise",
-      "fields": [
-        {
-          "name": "id",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "exerciseId++"
-            }
-          }
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "provider": {
-            "name": "random",
-            "props": {
-              "size": 10
-            }
-          }
-        },
-        {
-          "name": "userId",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "parent.parent.id"
-            }
-          }
-        },
-        {
-          "name": "trainingId",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "parent.id"
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "variables": [
-    {
-      "name": "userId",
-      "type": "long",
-      "initValue": "1"
-    },
-    {
-      "name": "trainingId",
-      "type": "long",
-      "initValue": "1"
-    },
-    {
-      "name": "exerciseId",
-      "type": "long",
-      "initValue": "1"
-    }
-  ],
-  "root": [
-    "user1",
-    "user2"
-  ]
+    ],
+    "root": [
+        "user1",
+        "user2"
+    ]
 }
 ```
