@@ -30,7 +30,7 @@ public class PeopleNameValueProviderTest {
 
     @Test
     public void testNextValue() throws Exception {
-        ValueProvider valueProvider = new ValueProviderFactory().buildValueProvider(
+        ValueProvider valueProvider = new DefaultValueProviderFactory().buildValueProvider(
                 new Provider(ValueProviderNameConst.PEOPLE_NAME, new HashMap<String, String>()));
         Assert.assertNotNull(valueProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null)));
     }

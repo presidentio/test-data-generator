@@ -21,13 +21,14 @@ import com.presidentio.testdatagenerator.output.Sink;
 import com.presidentio.testdatagenerator.output.SinkFactory;
 import com.presidentio.testdatagenerator.provider.ValueProvider;
 import com.presidentio.testdatagenerator.provider.ValueProviderFactory;
+import com.presidentio.testdatagenerator.provider.DefaultValueProviderFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Generator {
 
-    private static ValueProviderFactory valueProviderFactory = new ValueProviderFactory();
+    private static ValueProviderFactory valueProviderFactory = new DefaultValueProviderFactory();
     private static SinkFactory sinkFactory = new SinkFactory();
 
     public void generate(Schema schema) {
@@ -97,6 +98,14 @@ public class Generator {
         context.setTemplates(templates);
 
         return context;
+    }
+
+    public static ValueProviderFactory getValueProviderFactory() {
+        return valueProviderFactory;
+    }
+
+    public static void setValueProviderFactory(ValueProviderFactory valueProviderFactory) {
+        Generator.valueProviderFactory = valueProviderFactory;
     }
 
     private Sink buildSink(Output output) {
