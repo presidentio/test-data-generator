@@ -25,9 +25,6 @@ public class CompositeValueProviderFactory implements ValueProviderFactory {
 
     private List<ValueProviderFactory> valueProviderFactories = new ArrayList<>();
 
-    private CompositeValueProviderFactory() {
-    }
-
     @Override
     public ValueProvider buildValueProvider(Provider provider) {
         for (ValueProviderFactory valueProviderFactory : valueProviderFactories) {
@@ -42,9 +39,5 @@ public class CompositeValueProviderFactory implements ValueProviderFactory {
     public CompositeValueProviderFactory extend(ValueProviderFactory valueProviderFactory) {
         valueProviderFactories.add(valueProviderFactory);
         return this;
-    }
-
-    public static CompositeValueProviderFactory defaultProvider() {
-        return new CompositeValueProviderFactory().extend(new DefaultValueProviderFactory());
     }
 }

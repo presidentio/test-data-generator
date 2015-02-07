@@ -63,4 +63,8 @@ public class DefaultValueProviderFactory implements ValueProviderFactory {
         return NAMES;
     }
 
+    public static CompositeValueProviderFactory defaultProvider() {
+        return new CompositeValueProviderFactory().extend(new DefaultValueProviderFactory());
+    }
+
 }

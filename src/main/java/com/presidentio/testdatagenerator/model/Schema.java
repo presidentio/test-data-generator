@@ -13,15 +13,16 @@
  */
 package com.presidentio.testdatagenerator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Schema {
 
-    private List<Template> templates;
+    private List<Template> templates = new ArrayList<>();
 
-    private List<String> root;
+    private List<String> root = new ArrayList<>();
 
-    private List<Variable> variables;
+    private List<Variable> variables = new ArrayList<>();
 
     private Output output;
 

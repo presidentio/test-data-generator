@@ -1,0 +1,30 @@
+{
+    "output": {
+        "type": "sql",
+        "props": {
+            "file": "${tmp}/a.sql"
+        }
+    },
+    "templates": [
+        {
+            "id": "user",
+            "count": 10,
+            "name": "user",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "long",
+                    "provider": {
+                        "name": "test-provider",
+                        "props": {
+                            "value": "123"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "root": [
+        "user"
+    ]
+}

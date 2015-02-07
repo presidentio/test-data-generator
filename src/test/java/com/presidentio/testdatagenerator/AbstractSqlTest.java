@@ -27,6 +27,8 @@ import java.sql.SQLException;
 
 public abstract class AbstractSqlTest extends AbstractGeneratorTest {
 
+    private static int dbIndex = 1;
+
     private Connection connection;
 
     @Before
@@ -64,7 +66,7 @@ public abstract class AbstractSqlTest extends AbstractGeneratorTest {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:test_data_generator", "sa", "");
+        Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:test_data_generator" + (dbIndex++), "sa", "");
         SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(conn, true, true);
         sqlScriptRunner.runScript(new InputStreamReader(SqlGeneratorTest.class.getClassLoader()
                 .getResourceAsStream(getDbSchemaResource())));

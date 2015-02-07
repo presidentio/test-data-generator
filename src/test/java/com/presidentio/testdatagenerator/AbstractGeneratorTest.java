@@ -22,12 +22,16 @@ public abstract class AbstractGeneratorTest {
 
     protected abstract String getSchemaResource();
 
+    protected Generator buildGenerator() {
+        return new Generator();
+    }
+
     @Test
     public void testGenerate() throws Exception {
         JsonSchemaSerializer jsonSchemaSerializer = new JsonSchemaSerializer();
         Schema schema = jsonSchemaSerializer.deserialize(AbstractGeneratorTest.class.getClassLoader()
                 .getResourceAsStream(getSchemaResource()));
-        Generator generator = new Generator();
+        Generator generator = buildGenerator();
         generator.generate(schema);
         testResult(schema.getOutput());
     }
