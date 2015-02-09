@@ -1,6 +1,16 @@
 # test-data-generator
 Tools to generate data for testing
 
+## Usage
+
+```
+<dependency>
+    <groupId>com.presidentio</groupId>
+    <artifactId>test-data-generator</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
 ## Value Providers
 
 ##### const
