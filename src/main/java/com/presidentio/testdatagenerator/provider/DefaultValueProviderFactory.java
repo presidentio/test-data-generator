@@ -45,7 +45,7 @@ public class DefaultValueProviderFactory implements ValueProviderFactory {
                 return new SelectProvider(props);
             case ValueProviderNameConst.PEOPLE_NAME:
                 props.put(PropConst.ITEMS, getNames());
-                props.put(PropConst.DELIMITER, "\n");
+                props.put(PropConst.DELIMITER, "\r?\n");
                 return new SelectProvider(props);
             default:
                 return null;

@@ -1,6 +1,6 @@
 {
   "output": {
-    "type": "sql-file",
+    "type": "sql",
     "props": {
       "file": "./a.sql"
     }
@@ -26,6 +26,30 @@
           "type": "string",
           "provider": {
             "name": "email"
+          }
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "provider": {
+            "name": "people-name"
+          }
+        },
+        {
+          "name": "second_name",
+          "type": "string",
+          "provider": {
+            "name": "people-name"
+          }
+        },
+        {
+          "name": "age",
+          "type": "int",
+          "provider": {
+            "name": "select",
+            "props":{
+              "items":"11,15,18,19,20,23,40,50"
+            }
           }
         }
       ],
