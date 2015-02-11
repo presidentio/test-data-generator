@@ -31,7 +31,8 @@ public class SelectProviderTest {
         String propDelimiter = ",";
         props.put(PropConst.ITEMS, propItems);
         props.put(PropConst.DELIMITER, propDelimiter);
-        SelectProvider selectProvider = new SelectProvider(props);
+        SelectProvider selectProvider = new SelectProvider();
+        selectProvider.init(props);
 
         List items = Arrays.asList(propItems.split(propDelimiter));
         Object result = selectProvider.nextValue(new Context(), new Field("testField", TypeConst.STRING, null));

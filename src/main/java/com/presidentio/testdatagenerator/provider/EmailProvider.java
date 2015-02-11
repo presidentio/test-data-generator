@@ -28,7 +28,8 @@ public class EmailProvider implements ValueProvider<String> {
 
     private String domain = "email.com";
 
-    public EmailProvider(Map<String, String> props) {
+    @Override
+    public void init(Map<String, String> props) {
         Map<String, String> propsCopy = new HashMap<>(props);
         if (propsCopy.containsKey(PropConst.DOMAIN)) {
             domain = propsCopy.remove(PropConst.DOMAIN);
@@ -36,7 +37,9 @@ public class EmailProvider implements ValueProvider<String> {
         if (!propsCopy.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + propsCopy);
         }
-        randomProvider = new RandomProvider(Collections.<String, String>emptyMap());
+        randomProvider = new RandomProvider();
+        randomProvider.init(Collections.<String, String>emptyMap());
+
     }
 
     @Override

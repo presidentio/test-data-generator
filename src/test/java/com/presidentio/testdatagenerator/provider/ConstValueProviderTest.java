@@ -28,7 +28,7 @@ public class ConstValueProviderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRequiredProp() throws Exception {
-        new ConstValueProvider(Collections.<String, String>emptyMap());
+        new ConstValueProvider().init(Collections.<String, String>emptyMap());
     }
 
     @Test
@@ -36,7 +36,8 @@ public class ConstValueProviderTest {
         Map<String, String> props = new HashMap<>();
         String propValue = "123";
         props.put(PropConst.VALUE, propValue);
-        ConstValueProvider constValueProvider = new ConstValueProvider(props);
+        ConstValueProvider constValueProvider = new ConstValueProvider();
+        constValueProvider.init(props);
 
         Object result = constValueProvider.nextValue(new Context(), new Field("testField", TypeConst.STRING, null));
         Assert.assertEquals(propValue, result);

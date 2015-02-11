@@ -14,14 +14,12 @@
 package com.presidentio.testdatagenerator.provider;
 
 import com.presidentio.testdatagenerator.cons.TypeConst;
-import com.presidentio.testdatagenerator.cons.ValueProviderNameConst;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
-import com.presidentio.testdatagenerator.model.Provider;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
+import java.util.Collections;
 
 /**
  * Created by Vitaliy on 24.01.2015.
@@ -30,8 +28,8 @@ public class PeopleNameValueProviderTest {
 
     @Test
     public void testNextValue() throws Exception {
-        ValueProvider valueProvider = new DefaultValueProviderFactory().buildValueProvider(
-                new Provider(ValueProviderNameConst.PEOPLE_NAME, new HashMap<String, String>()));
+        ValueProvider valueProvider = new PeopleNameProvider();
+        valueProvider.init(Collections.emptyMap());
         Assert.assertNotNull(valueProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null)));
     }
 }

@@ -21,14 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class SelectProvider implements ValueProvider {
+public class SelectProvider implements ValueProvider<Object> {
 
     private String[] items;
 
     private String delimiter = ",";
     private Random random = new Random();
 
-    public SelectProvider(Map<String, String> props) {
+    @Override
+    public void init(Map<String, String> props) {
         Map<String, String> propsCopy = new HashMap<>(props);
         if (propsCopy.containsKey(PropConst.DELIMITER)) {
             delimiter = propsCopy.remove(PropConst.DELIMITER);
@@ -44,6 +45,7 @@ public class SelectProvider implements ValueProvider {
         if (!propsCopy.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for RandomProvider: " + propsCopy);
         }
+
     }
 
     @Override

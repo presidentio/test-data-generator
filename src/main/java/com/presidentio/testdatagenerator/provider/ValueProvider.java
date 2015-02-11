@@ -16,7 +16,11 @@ package com.presidentio.testdatagenerator.provider;
 import com.presidentio.testdatagenerator.context.Context;
 import com.presidentio.testdatagenerator.model.Field;
 
+import java.util.Map;
+
 public interface ValueProvider<Type> {
+    
+    void init(Map<String, String> props);
 
     Type nextValue(Context context, Field field);
 

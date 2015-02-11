@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class ExtendProvidersTest extends AbstractSqlTest {
 
@@ -43,6 +44,11 @@ public class ExtendProvidersTest extends AbstractSqlTest {
             public ValueProvider buildValueProvider(final Provider provider) {
                 Assert.assertEquals("test-provider", provider.getName());
                 return new ValueProvider() {
+                    @Override
+                    public void init(Map props) {
+
+                    }
+
                     @Override
                     public Object nextValue(Context context, Field field) {
                         return Long.valueOf(provider.getProps().get("value"));

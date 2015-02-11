@@ -21,16 +21,15 @@ import org.junit.Test;
 
 import java.util.Collections;
 
-public class RandomProviderTest {
+/**
+ * Created by Vitaliy on 24.01.2015.
+ */
+public class CountryValueProviderTest {
 
     @Test
     public void testNextValue() throws Exception {
-        RandomProvider randomProvider = new RandomProvider();
-        randomProvider.init(Collections.<String, String>emptyMap());
-        Assert.assertNotNull(randomProvider.nextValue(new Context(), new Field(null, TypeConst.BOOLEAN, null)));
-        Assert.assertNotNull(randomProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null)));
-        Assert.assertNotNull(randomProvider.nextValue(new Context(), new Field(null, TypeConst.INT, null)));
-        Assert.assertNotNull(randomProvider.nextValue(new Context(), new Field(null, TypeConst.LONG, null)));
-
+        ValueProvider valueProvider = new CountryProvider();
+        valueProvider.init(Collections.emptyMap());
+        Assert.assertNotNull(valueProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null)));
     }
 }

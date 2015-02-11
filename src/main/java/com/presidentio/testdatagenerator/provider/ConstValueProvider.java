@@ -21,11 +21,12 @@ import com.presidentio.testdatagenerator.model.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConstValueProvider implements ValueProvider {
+public class ConstValueProvider implements ValueProvider<Object> {
 
     private String value;
 
-    public ConstValueProvider(Map<String, String> props) {
+    @Override
+    public void init(Map<String, String> props) {
         Map<String, String> propsCopy = new HashMap<>(props);
         value = propsCopy.remove(PropConst.VALUE);
         if (value == null) {

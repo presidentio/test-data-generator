@@ -23,11 +23,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExpressionProvider implements ValueProvider {
+public class ExpressionProvider implements ValueProvider<Object> {
 
     private String expr;
 
-    public ExpressionProvider(Map<String, String> props) {
+    @Override
+    public void init(Map<String, String> props) {
         Map<String, String> propsCopy = new HashMap<>(props);
         expr = propsCopy.remove(PropConst.EXPR);
         if (expr == null) {
@@ -36,6 +37,7 @@ public class ExpressionProvider implements ValueProvider {
         if (!propsCopy.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + propsCopy);
         }
+
     }
 
     @Override

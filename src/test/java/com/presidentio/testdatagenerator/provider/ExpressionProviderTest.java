@@ -30,7 +30,8 @@ public class ExpressionProviderTest {
         Map<String, String> props = new HashMap<>();
         String propExpr = "2 + 10";
         props.put(PropConst.EXPR, propExpr);
-        ExpressionProvider expressionProvider = new ExpressionProvider(props);
+        ExpressionProvider expressionProvider = new ExpressionProvider();
+        expressionProvider.init(props);
         Object result = expressionProvider.nextValue(new Context(), new Field(null, TypeConst.INT, null));
         Assert.assertEquals(12, result);
     }
@@ -40,7 +41,8 @@ public class ExpressionProviderTest {
         Map<String, String> props = new HashMap<>();
         String propExpr = "++a + 10*b";
         props.put(PropConst.EXPR, propExpr);
-        ExpressionProvider expressionProvider = new ExpressionProvider(props);
+        ExpressionProvider expressionProvider = new ExpressionProvider();
+        expressionProvider.init(props);
         Context context = new Context();
         Map<String, Object> variables = new HashMap<>();
         variables.put("a", 5);
@@ -55,7 +57,8 @@ public class ExpressionProviderTest {
         Map<String, String> props = new HashMap<>();
         String propExpr = "a + b";
         props.put(PropConst.EXPR, propExpr);
-        ExpressionProvider expressionProvider = new ExpressionProvider(props);
+        ExpressionProvider expressionProvider = new ExpressionProvider();
+        expressionProvider.init(props);
         Context context = new Context();
         Map<String, Object> variables = new HashMap<>();
         variables.put("a", "abc");
@@ -70,7 +73,8 @@ public class ExpressionProviderTest {
         Map<String, String> props = new HashMap<>();
         String propExpr = "a + b";
         props.put(PropConst.EXPR, propExpr);
-        ExpressionProvider expressionProvider = new ExpressionProvider(props);
+        ExpressionProvider expressionProvider = new ExpressionProvider();
+        expressionProvider.init(props);
         Context context = new Context();
         Map<String, Object> variables = new HashMap<>();
         variables.put("a", "1");

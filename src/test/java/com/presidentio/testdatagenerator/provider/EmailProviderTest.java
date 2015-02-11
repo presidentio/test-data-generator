@@ -30,7 +30,8 @@ public class EmailProviderTest {
         Map<String, String> props = new HashMap<>();
         String propDomain = "test.domain";
         props.put(PropConst.DOMAIN, propDomain);
-        EmailProvider emailProvider = new EmailProvider(props);
+        EmailProvider emailProvider = new EmailProvider();
+        emailProvider.init(props);
         Object result = emailProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null));
         Assert.assertTrue(result.toString().matches(".+@\\w+\\.\\w+"));
         Assert.assertEquals(propDomain, result.toString().split("@")[1]);
@@ -39,7 +40,8 @@ public class EmailProviderTest {
     @Test
     public void testNextValueWithDefaultDomain() throws Exception {
         Map<String, String> props = new HashMap<>();
-        EmailProvider emailProvider = new EmailProvider(props);
+        EmailProvider emailProvider = new EmailProvider();
+        emailProvider.init(props);
         Object result = emailProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null));
         Assert.assertTrue(result.toString().matches(".+@\\w+\\.\\w+"));
     }

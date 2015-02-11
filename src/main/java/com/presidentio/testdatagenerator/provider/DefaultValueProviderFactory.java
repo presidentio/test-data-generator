@@ -13,18 +13,13 @@
  */
 package com.presidentio.testdatagenerator.provider;
 
-import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.cons.ValueProviderNameConst;
 import com.presidentio.testdatagenerator.model.Provider;
-import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultValueProviderFactory implements ValueProviderFactory {
-
-    private static String NAMES;
 
     @Override
     public ValueProvider buildValueProvider(Provider provider) {
@@ -32,35 +27,34 @@ public class DefaultValueProviderFactory implements ValueProviderFactory {
         if (provider.getProps() != null) {
             props = new HashMap<>(provider.getProps());
         }
+        ValueProvider valueProvider;
         switch (provider.getName()) {
             case ValueProviderNameConst.CONST:
-                return new ConstValueProvider(props);
+                valueProvider = new ConstValueProvider();
+                break;
             case ValueProviderNameConst.EMAIL:
-                return new EmailProvider(props);
+                valueProvider = new EmailProvider();
+                break;
             case ValueProviderNameConst.EXPR:
-                return new ExpressionProvider(props);
+                valueProvider = new ExpressionProvider();
+                break;
             case ValueProviderNameConst.RANDOM:
-                return new RandomProvider(props);
+                valueProvider = new RandomProvider();
+                break;
             case ValueProviderNameConst.SELECT:
-                return new SelectProvider(props);
+                valueProvider = new SelectProvider();
+                break;
             case ValueProviderNameConst.PEOPLE_NAME:
-                props.put(PropConst.ITEMS, getNames());
-                props.put(PropConst.DELIMITER, "\r?\n");
-                return new SelectProvider(props);
+                valueProvider = new PeopleNameProvider();
+                break;
+            case ValueProviderNameConst.COUNTRY:
+                valueProvider = new CountryProvider();
+                break;
             default:
                 return null;
         }
-    }
-
-    private static String getNames() {
-        if (NAMES == null) {
-            try {
-                NAMES = IOUtils.toString(DefaultValueProviderFactory.class.getClassLoader().getResourceAsStream("name.dat"));
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to load names", e);
-            }
-        }
-        return NAMES;
+        valueProvider.init(props);
+        return valueProvider;
     }
 
     public static CompositeValueProviderFactory defaultProvider() {

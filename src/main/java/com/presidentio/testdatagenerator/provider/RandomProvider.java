@@ -22,14 +22,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class RandomProvider implements ValueProvider {
+public class RandomProvider implements ValueProvider<Object> {
 
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     private long size = 10;
     private Random random = new Random();
 
-    public RandomProvider(Map<String, String> props) {
+    @Override
+    public void init(Map<String, String> props) {
         Map<String, String> propsCopy = new HashMap<>(props);
         if (propsCopy.containsKey(PropConst.SIZE)) {
             size = Long.valueOf(propsCopy.remove(PropConst.SIZE));
@@ -37,6 +38,7 @@ public class RandomProvider implements ValueProvider {
         if (!propsCopy.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for RandomProvider: " + propsCopy);
         }
+
     }
 
     @Override
