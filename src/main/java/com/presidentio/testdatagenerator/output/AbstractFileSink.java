@@ -15,10 +15,7 @@ package com.presidentio.testdatagenerator.output;
 
 import com.presidentio.testdatagenerator.cons.PropConst;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 
 public abstract class AbstractFileSink implements Sink {
@@ -33,6 +30,10 @@ public abstract class AbstractFileSink implements Sink {
             throw new IllegalArgumentException(PropConst.FILE + " does not specified or null");
         }
         try {
+            File outFile = new File(file);
+            if (!outFile.getParentFile().exists()) {
+                outFile.getParentFile().mkdirs();
+            }
             outputStream = new BufferedOutputStream(new FileOutputStream(file));
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Failed to create file sink", e);

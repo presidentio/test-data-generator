@@ -11,6 +11,13 @@ Tools to generate data for testing
 </dependency>
 ```
 
+```
+SchemaSerializer schemaSerializer = new JsonSchemaSerializer();
+Schema schema = schemaSerializer.deserialize(Starter.class.getClassLoader().getResourceAsStream("schema.json"));
+Generator generator = new Generator();
+generator.generate(schema);
+```
+
 ## Value Providers
 
 ##### const
@@ -88,7 +95,7 @@ You can user placeholder in any string field value. Placeholder format is ${plac
 ```
 {
     "output": {
-        "type": "sql-file",
+        "type": "sql",
         "props": {
             "file": "${tmp}/a.sql"
         }

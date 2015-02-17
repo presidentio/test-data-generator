@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class Generator {
 
-    private static ValueProviderFactory valueProviderFactory = new DefaultValueProviderFactory();
-    private static SinkFactory sinkFactory = new SinkFactory();
+    private ValueProviderFactory valueProviderFactory = new DefaultValueProviderFactory();
+    private SinkFactory sinkFactory = new SinkFactory();
 
     public void generate(Schema schema) {
         Context context = buildContext(schema);
@@ -100,12 +100,12 @@ public class Generator {
         return context;
     }
 
-    public static ValueProviderFactory getValueProviderFactory() {
+    public ValueProviderFactory getValueProviderFactory() {
         return valueProviderFactory;
     }
 
-    public static void setValueProviderFactory(ValueProviderFactory valueProviderFactory) {
-        Generator.valueProviderFactory = valueProviderFactory;
+    public void setValueProviderFactory(ValueProviderFactory valueProviderFactory) {
+        this.valueProviderFactory = valueProviderFactory;
     }
 
     private Sink buildSink(Output output) {
