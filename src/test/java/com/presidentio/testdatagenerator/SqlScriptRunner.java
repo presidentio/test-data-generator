@@ -31,9 +31,6 @@ public class SqlScriptRunner {
     private boolean stopOnError;
     private boolean autoCommit;
 
-    private PrintWriter logWriter = new PrintWriter(System.out);
-    private PrintWriter errorLogWriter = new PrintWriter(System.err);
-
     private String delimiter = DEFAULT_DELIMITER;
     private boolean fullLineDelimiter = false;
 
@@ -53,24 +50,6 @@ public class SqlScriptRunner {
     }
 
     /**
-     * Setter for logWriter property
-     *
-     * @param logWriter - the new value of the logWriter property
-     */
-    public void setLogWriter(PrintWriter logWriter) {
-        this.logWriter = logWriter;
-    }
-
-    /**
-     * Setter for errorLogWriter property
-     *
-     * @param errorLogWriter - the new value of the errorLogWriter property
-     */
-    public void setErrorLogWriter(PrintWriter errorLogWriter) {
-        this.errorLogWriter = errorLogWriter;
-    }
-
-    /**
      * Runs an SQL script (read in using the Reader parameter)
      *
      * @param reader - the source of the script
@@ -86,9 +65,7 @@ public class SqlScriptRunner {
             } finally {
                 connection.setAutoCommit(originalAutoCommit);
             }
-        } catch (IOException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException("Error running script.  Cause: " + e, e);
@@ -116,7 +93,6 @@ public class SqlScriptRunner {
                 }
                 String trimmedLine = line.trim();
                 if (trimmedLine.startsWith("--")) {
-                    println(trimmedLine);
                 } else if (trimmedLine.length() < 1
                         || trimmedLine.startsWith("//")) {
                 } else if (trimmedLine.length() < 1
@@ -129,8 +105,6 @@ public class SqlScriptRunner {
                             .lastIndexOf(getDelimiter())));
                     command.append(" ");
                     Statement statement = conn.createStatement();
-
-                    println(command);
 
                     boolean hasResults = false;
                     if (stopOnError) {
@@ -147,24 +121,6 @@ public class SqlScriptRunner {
 
                     if (autoCommit && !conn.getAutoCommit()) {
                         conn.commit();
-                    }
-
-                    ResultSet rs = statement.getResultSet();
-                    if (hasResults && rs != null) {
-                        ResultSetMetaData md = rs.getMetaData();
-                        int cols = md.getColumnCount();
-                        for (int i = 0; i < cols; i++) {
-                            String name = md.getColumnLabel(i);
-                            print(name + "\t");
-                        }
-                        println("");
-                        while (rs.next()) {
-                            for (int i = 0; i < cols; i++) {
-                                String value = rs.getString(i);
-                                print(value + "\t");
-                            }
-                            println("");
-                        }
                     }
 
                     command = null;
@@ -194,7 +150,6 @@ public class SqlScriptRunner {
             throw e;
         } finally {
             conn.rollback();
-            flush();
         }
     }
 
@@ -202,30 +157,7 @@ public class SqlScriptRunner {
         return delimiter;
     }
 
-    private void print(Object o) {
-        if (logWriter != null) {
-            System.out.print(o);
-        }
-    }
-
-    private void println(Object o) {
-        if (logWriter != null) {
-            logWriter.println(o);
-        }
-    }
-
     private void printlnError(Object o) {
-        if (errorLogWriter != null) {
-            errorLogWriter.println(o);
-        }
-    }
-
-    private void flush() {
-        if (logWriter != null) {
-            logWriter.flush();
-        }
-        if (errorLogWriter != null) {
-            errorLogWriter.flush();
-        }
+        System.out.println(o);
     }
 }

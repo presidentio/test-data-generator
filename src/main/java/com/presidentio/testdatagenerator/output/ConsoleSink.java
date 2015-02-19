@@ -22,7 +22,8 @@ import java.util.Map;
  */
 public class ConsoleSink implements Sink {
 
-    public ConsoleSink(Map<String, String> props) {
+    @Override
+    public void init(Map<String, String> props) {
         if (!props.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + props);
         }

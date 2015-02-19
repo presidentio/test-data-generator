@@ -17,8 +17,6 @@ import com.github.tlrx.elasticsearch.test.annotations.ElasticsearchClient;
 import com.github.tlrx.elasticsearch.test.annotations.ElasticsearchNode;
 import com.github.tlrx.elasticsearch.test.annotations.ElasticsearchSetting;
 import com.github.tlrx.elasticsearch.test.support.junit.runners.ElasticsearchRunner;
-import com.presidentio.testdatagenerator.cons.PropConst;
-import com.presidentio.testdatagenerator.model.Output;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -33,20 +31,21 @@ import org.junit.runner.RunWith;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 @RunWith(ElasticsearchRunner.class)
 public abstract class AbstractEsTest extends AbstractGeneratorTest {
 
-    @ElasticsearchNode(name = "node", clusterName = "fourth-cluster-name", local = true, data = true, settings = {
-            @ElasticsearchSetting(name = "http.enabled", value = "false"),
-            @ElasticsearchSetting(name = "node.zone", value = "zone_one")})
+    @ElasticsearchNode(name = "node", clusterName = "test-cluster-name", local = false, data = true, settings = {
+            @ElasticsearchSetting(name = "http.enabled", value = "true"),
+            @ElasticsearchSetting(name = "node.zone", value = "zone_one"),
+            @ElasticsearchSetting(name = "network.host", value = "localhost"),
+            @ElasticsearchSetting(name = "transport.tcp.port", value = "9200")})
     private Node node;
 
     @ElasticsearchClient(nodeName = "node")
-    private Client client;
+    protected Client client;
 
     @Before
     public void setUp() throws Exception {
@@ -72,17 +71,7 @@ public abstract class AbstractEsTest extends AbstractGeneratorTest {
         super.testGenerate();
     }
 
-    @Override
-    protected void testResult(Output output) {
-        try {
-            executeFile(output.getProps().get(PropConst.FILE));
-            testEsContent(client);
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void executeFile(String file) throws IOException {
+    protected void executeFile(String file) throws IOException {
         String fileContent = IOUtils.toString(new FileReader(file));
         byte[] bytes = fileContent.getBytes();
         try {
@@ -92,10 +81,6 @@ public abstract class AbstractEsTest extends AbstractGeneratorTest {
         } catch (Exception e) {
             throw new IOException(e);
         }
-    }
-
-    protected void testEsContent(Client client) throws SQLException {
-
     }
 
     protected Map<String, String> getEsMappings() {

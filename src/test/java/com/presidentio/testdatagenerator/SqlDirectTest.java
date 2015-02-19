@@ -13,6 +13,7 @@
  */
 package com.presidentio.testdatagenerator;
 
+import com.presidentio.testdatagenerator.model.Output;
 import org.junit.Assert;
 
 import java.sql.Connection;
@@ -20,14 +21,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SqlGeneratorTest extends AbstractSqlTest {
+public class SqlDirectTest extends AbstractSqlTest {
 
     @Override
     protected String getSchemaResource() {
-        return "test1-schema.json";
+        return "test-sql-direct-schema.json";
     }
 
     @Override
+    protected void testResult(Output output) {
+        try {
+            testDbContent(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected void testDbContent(Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(id) FROM user");
         preparedStatement.execute();

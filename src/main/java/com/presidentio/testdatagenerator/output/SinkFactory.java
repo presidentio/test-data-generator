@@ -19,16 +19,28 @@ import com.presidentio.testdatagenerator.model.Output;
 public class SinkFactory {
 
     public Sink getSink(Output output) {
+        Sink sink;
         switch (output.getType()) {
             case SinkTypeConst.CONSOLE:
-                return new ConsoleSink(output.getProps());
-            case SinkTypeConst.SQL:
-                return new SqlSink(output.getProps());
-            case SinkTypeConst.ES:
-                return new EsSink(output.getProps());
+                sink = new ConsoleSink();
+                break;
+            case SinkTypeConst.SQL_FILE:
+                sink = new SqlFileSink();
+                break;
+            case SinkTypeConst.SQL_DIRECT:
+                sink = new SqlDirectSink();
+                break;
+            case SinkTypeConst.ES_FILE:
+                sink = new EsFileSink();
+                break;
+            case SinkTypeConst.ES_DIRECT:
+                sink = new EsDirectSink();
+                break;
             default:
                 throw new IllegalArgumentException("Unknown sink type: " + output.getType());
         }
+        sink.init(output.getProps());
+        return sink;
     }
 
 }

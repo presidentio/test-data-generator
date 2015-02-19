@@ -13,8 +13,6 @@
  */
 package com.presidentio.testdatagenerator;
 
-import com.presidentio.testdatagenerator.cons.PropConst;
-import com.presidentio.testdatagenerator.model.Output;
 import org.junit.After;
 import org.junit.Before;
 
@@ -27,9 +25,7 @@ import java.sql.SQLException;
 
 public abstract class AbstractSqlTest extends AbstractGeneratorTest {
 
-    private static int dbIndex = 1;
-
-    private Connection connection;
+    protected Connection connection;
 
     @Before
     public void setUp() throws Exception {
@@ -41,17 +37,7 @@ public abstract class AbstractSqlTest extends AbstractGeneratorTest {
         connection.close();
     }
 
-    @Override
-    protected void testResult(Output output) {
-        try {
-            executeSqlFile(output.getProps().get(PropConst.FILE));
-            testDbContent(connection);
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void executeSqlFile(String file) throws IOException {
+    protected void executeSqlFile(String file) throws IOException {
         try {
             SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(connection, true, true);
             sqlScriptRunner.runScript(new FileReader(file));
@@ -66,18 +52,14 @@ public abstract class AbstractSqlTest extends AbstractGeneratorTest {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:test_data_generator" + (dbIndex++), "sa", "");
+        Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:test_data_generator;shutdown=true", "sa", "");
         SqlScriptRunner sqlScriptRunner = new SqlScriptRunner(conn, true, true);
-        sqlScriptRunner.runScript(new InputStreamReader(SqlGeneratorTest.class.getClassLoader()
+        sqlScriptRunner.runScript(new InputStreamReader(SqlFileTest.class.getClassLoader()
                 .getResourceAsStream(getDbSchemaResource())));
         return conn;
     }
 
-    protected void testDbContent(Connection connection) throws SQLException {
-
-    }
-
-    protected String getDbSchemaResource(){
+    protected String getDbSchemaResource() {
         return "test-db-schema.sql";
     }
 

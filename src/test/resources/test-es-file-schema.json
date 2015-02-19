@@ -1,8 +1,9 @@
 {
     "output": {
-        "type": "sql",
+        "type": "es-file",
         "props": {
-            "file": "${tmp}/a.sql"
+            "file": "${tmp}/es.json",
+            "index": "test_data_generator"
         }
     },
     "templates": [
@@ -116,7 +117,7 @@
                     }
                 }
             ],
-            "child":[
+            "child": [
                 "exercise1"
             ]
         },

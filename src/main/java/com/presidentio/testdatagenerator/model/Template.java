@@ -67,4 +67,21 @@ public class Template {
     public void setChild(List<String> child) {
         this.child = child;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Template template = (Template) o;
+
+        if (name != null ? !name.equals(template.name) : template.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 }

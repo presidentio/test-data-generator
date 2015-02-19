@@ -14,13 +14,7 @@
 package com.presidentio.testdatagenerator;
 
 import com.presidentio.testdatagenerator.cons.PropConst;
-import com.presidentio.testdatagenerator.context.Context;
-import com.presidentio.testdatagenerator.model.Field;
 import com.presidentio.testdatagenerator.model.Output;
-import com.presidentio.testdatagenerator.model.Provider;
-import com.presidentio.testdatagenerator.provider.DefaultValueProviderFactory;
-import com.presidentio.testdatagenerator.provider.ValueProvider;
-import com.presidentio.testdatagenerator.provider.ValueProviderFactory;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -28,39 +22,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
-public class ExtendProvidersTest extends AbstractSqlTest {
-
-    private Long testProviderValue = 123L;
+public class SqlFileTest extends AbstractSqlTest {
 
     @Override
     protected String getSchemaResource() {
-        return "extend-providers-test-schema.json";
-    }
-
-    @Override
-    protected Generator buildGenerator() {
-        Generator generator = new Generator();
-        ValueProviderFactory valueProviderFactory = DefaultValueProviderFactory.defaultProvider().extend(new ValueProviderFactory() {
-            @Override
-            public ValueProvider buildValueProvider(final Provider provider) {
-                Assert.assertEquals("test-provider", provider.getName());
-                return new ValueProvider() {
-                    @Override
-                    public void init(Map props) {
-
-                    }
-
-                    @Override
-                    public Object nextValue(Context context, Field field) {
-                        return Long.valueOf(provider.getProps().get("value"));
-                    }
-                };
-            }
-        });
-        generator.setValueProviderFactory(valueProviderFactory);
-        return generator;
+        return "test-sql-file-schema.json";
     }
 
     @Override
@@ -79,13 +46,20 @@ public class ExtendProvidersTest extends AbstractSqlTest {
         ResultSet resultSet = preparedStatement.getResultSet();
         resultSet.next();
         int count = resultSet.getInt(1);
-        Assert.assertEquals(10, count);
+        Assert.assertEquals(11, count);
 
-        preparedStatement = connection.prepareStatement("SELECT id FROM user");
+        preparedStatement = connection.prepareStatement("SELECT count(id) FROM training");
         preparedStatement.execute();
         resultSet = preparedStatement.getResultSet();
         resultSet.next();
-        Long value = resultSet.getLong(1);
-        Assert.assertEquals(value, testProviderValue);
+        count = resultSet.getInt(1);
+        Assert.assertEquals(55, count);
+
+        preparedStatement = connection.prepareStatement("SELECT count(id) FROM exercise");
+        preparedStatement.execute();
+        resultSet = preparedStatement.getResultSet();
+        resultSet.next();
+        count = resultSet.getInt(1);
+        Assert.assertEquals(275, count);
     }
 }

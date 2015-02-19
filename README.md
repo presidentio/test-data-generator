@@ -67,19 +67,37 @@ Return real name.
 
 Print all generate data to the System.out
 
-##### sql
+##### sql-file
 
 Write sql formatted data to file.
 
 Properties:
 * *file* - required, file to save sql
 
-##### es
+##### es-file
 
 Write Elastic Search bulk formatted data to file.
 
 Properties:
 * *file* - required, file to save json
+* *index* - required, index name
+
+##### sql-direct
+
+Write sql formatted by jdbc connection.
+
+Properties:
+* *jdbcDriver* - jdbc driver to init jdbc connection and check does it support multi insert
+* *connectionUrl* - jdbc connection url with username and password if it requires
+
+##### es-direct
+
+Write Elastic Search bulk formatted data to file.
+
+Properties:
+* *host* - required, elastic search node host
+* *port* - required, elastic search node port
+* *clusterName* - required, elastic search cluster name
 * *index* - required, index name
 
 ## Placeholders
@@ -95,7 +113,7 @@ You can user placeholder in any string field value. Placeholder format is ${plac
 ```
 {
     "output": {
-        "type": "sql",
+        "type": "sql-file",
         "props": {
             "file": "${tmp}/a.sql"
         }

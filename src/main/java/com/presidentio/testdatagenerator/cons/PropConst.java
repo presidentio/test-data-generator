@@ -25,5 +25,10 @@ public class PropConst {
     public static final String DELIMITER = "delimiter";
     public static final String ITEMS = "items";
     public static final String INDEX = "index";
+    public static final String HOST = "host";
+    public static final String PORT = "port";
+    public static final String CLUSTER_NAME = "clusterName";
+    public static final String CONNECTION_URL = "connectionUrl";
+    public static final String JDBC_DRIVER = "jdbcDriver";
 
 }

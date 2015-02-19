@@ -13,23 +13,35 @@
  */
 package com.presidentio.testdatagenerator;
 
+import com.presidentio.testdatagenerator.cons.PropConst;
+import com.presidentio.testdatagenerator.model.Output;
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Assert;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
-public class EsGeneratorTest extends AbstractEsTest {
+public class EsFileTest extends AbstractEsTest {
 
     private String indexName = "test_data_generator";
 
     @Override
     protected String getSchemaResource() {
-        return "test-es-schema.json";
+        return "test-es-file-schema.json";
     }
 
     @Override
+    protected void testResult(Output output) {
+        try {
+            executeFile(output.getProps().get(PropConst.FILE));
+            testEsContent(client);
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected void testEsContent(Client client) throws SQLException {
         try {
             Thread.sleep(2000);

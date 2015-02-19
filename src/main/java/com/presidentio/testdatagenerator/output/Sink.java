@@ -19,6 +19,8 @@ import java.util.Map;
 
 public interface Sink {
 
+    void init(Map<String, String> props);
+
     void process(Template template, Map<String, Object> map);
 
     void close();

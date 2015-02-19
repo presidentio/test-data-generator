@@ -18,14 +18,13 @@ import com.presidentio.testdatagenerator.cons.PropConst;
 import java.io.*;
 import java.util.Map;
 
-public abstract class AbstractFileSink implements Sink {
-
-    private String file;
+public abstract class AbstractFileSink extends AbstractBufferedSink {
 
     private BufferedOutputStream outputStream;
 
-    public AbstractFileSink(Map<String, String> props) {
-        file = props.get(PropConst.FILE);
+    @Override
+    public void init(Map<String, String> props) {
+        String file = props.get(PropConst.FILE);
         if (file == null) {
             throw new IllegalArgumentException(PropConst.FILE + " does not specified or null");
         }
@@ -40,16 +39,18 @@ public abstract class AbstractFileSink implements Sink {
         }
     }
 
-    protected void write(byte[] bytes) {
+    @Override
+    public void write(String query) {
         try {
-            outputStream.write(bytes);
+            outputStream.write(query.getBytes());
         } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to save: " + new String(bytes), e);
+            throw new IllegalArgumentException("Failed to save: " + query, e);
         }
     }
 
     @Override
     public void close() {
+        super.close();
         try {
             outputStream.close();
         } catch (IOException e) {

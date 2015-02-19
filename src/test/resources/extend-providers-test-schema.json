@@ -1,6 +1,6 @@
 {
     "output": {
-        "type": "sql",
+        "type": "sql-file",
         "props": {
             "file": "${tmp}/a.sql"
         }

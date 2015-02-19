@@ -11,14 +11,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.presidentio.testdatagenerator.cons;
+package com.presidentio.testdatagenerator.output;
 
-public class SinkTypeConst {
+import com.presidentio.testdatagenerator.output.formatter.Formatter;
+import com.presidentio.testdatagenerator.output.formatter.SqlFormatter;
 
-    public static final String CONSOLE = "console";
-    public static final String SQL_FILE = "sql-file";
-    public static final String SQL_DIRECT = "sql-direct";
-    public static final String ES_FILE = "es-file";
-    public static final String ES_DIRECT = "es-direct";
+import java.util.Map;
+
+public class SqlFileSink extends AbstractFileSink {
+
+    @Override
+    public void init(Map<String, String> props) {
+        super.init(props);
+        Formatter formatter = new SqlFormatter();
+        formatter.init(props);
+        init(formatter);
+    }
 
 }

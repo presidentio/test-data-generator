@@ -1,26 +1,17 @@
-/**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.presidentio.testdatagenerator.output;
+package com.presidentio.testdatagenerator.output.formatter;
 
 import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.model.Template;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
-public class EsSink extends AbstractFileSink {
+/**
+ * Created by Vitalii_Gergel on 2/19/2015.
+ */
+public class EsFormatter implements Formatter {
 
     private static final String INDEX = "{ \"index\" : { \"_index\" : \"%s\", \"_type\" : \"%s\"} }";
     private static final String NEW_LINE = "\n";
@@ -29,16 +20,17 @@ public class EsSink extends AbstractFileSink {
 
     private String index;
 
-    public EsSink(Map<String, String> props) {
-        super(props);
+    @Override
+    public void init(Map<String, String> props) {
         index = props.get(PropConst.INDEX);
         if (index == null) {
             throw new IllegalArgumentException(PropConst.INDEX + " does not specified or null");
         }
+
     }
 
     @Override
-    public void process(Template template, Map<String, Object> map) {
+    public String format(Map<String, Object> map, Template template) {
         String result = String.format(INDEX, index, template.getName());
         result += NEW_LINE;
         try {
@@ -47,6 +39,20 @@ public class EsSink extends AbstractFileSink {
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
-        write(result.getBytes());
+        return result;
+    }
+
+    @Override
+    public String format(List<Map<String, Object>> maps, Template template) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map<String, Object> map : maps) {
+            stringBuilder.append(format(map, template));
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean supportMultiInsert() {
+        return true;
     }
 }
