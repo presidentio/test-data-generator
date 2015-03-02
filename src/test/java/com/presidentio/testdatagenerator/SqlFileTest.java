@@ -22,12 +22,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 public class SqlFileTest extends AbstractSqlTest {
 
     @Override
-    protected String getSchemaResource() {
-        return "test-sql-file-schema.json";
+    protected List<String> getSchemaResource() {
+        return Arrays.asList("test-sql-file-schema.json");
     }
 
     @Override

@@ -1,50 +1,32 @@
-/**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.presidentio.testdatagenerator;
 
-import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.model.Output;
 import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Assert;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class EsFileTest extends AbstractEsTest {
+/**
+ * Created by Vitalii_Gergel on 3/2/2015.
+ */
+public class MergeSchemaTest extends AbstractEsTest {
 
     private String indexName = "test_data_generator";
 
     @Override
     protected List<String> getSchemaResource() {
-        return Arrays.asList("test-es-file-schema.json");
+        return Arrays.asList("merge-1-test-schema.json", "merge-2-test-schema.json");
     }
 
     @Override
     protected void testResult(Output output) {
-        try {
-            executeFile(output.getProps().get(PropConst.FILE));
-            testEsContent(client);
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException(e);
-        }
+        testEsContent(client);
     }
 
-    protected void testEsContent(Client client) throws SQLException {
+    protected void testEsContent(Client client) {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {

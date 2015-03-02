@@ -15,12 +15,14 @@ package com.presidentio.testdatagenerator;
 
 import com.presidentio.testdatagenerator.model.Output;
 import com.presidentio.testdatagenerator.model.Schema;
-import com.presidentio.testdatagenerator.parser.JsonSchemaSerializer;
+import com.presidentio.testdatagenerator.parser.SchemaBuilder;
 import org.junit.Test;
+
+import java.util.List;
 
 public abstract class AbstractGeneratorTest {
 
-    protected abstract String getSchemaResource();
+    protected abstract List<String> getSchemaResource();
 
     protected Generator buildGenerator() {
         return new Generator();
@@ -28,9 +30,11 @@ public abstract class AbstractGeneratorTest {
 
     @Test
     public void testGenerate() throws Exception {
-        JsonSchemaSerializer jsonSchemaSerializer = new JsonSchemaSerializer();
-        Schema schema = jsonSchemaSerializer.deserialize(AbstractGeneratorTest.class.getClassLoader()
-                .getResourceAsStream(getSchemaResource()));
+        SchemaBuilder schemaBuilder = new SchemaBuilder();
+        for (String resource : getSchemaResource()) {
+            schemaBuilder.fromResource(resource);
+        }
+        Schema schema = schemaBuilder.build();
         Generator generator = buildGenerator();
         generator.generate(schema);
         testResult(schema.getOutput());

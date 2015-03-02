@@ -1,14 +1,16 @@
 {
   "output": {
-    "type": "sql-direct",
+    "type": "es-direct",
     "props": {
-      "connectionUrl": "jdbc:hsqldb:mem:test_data_generator;user=sa;shutdown=trues",
-      "jdbcDriver": "org.hsqldb.jdbcDriver"
+      "host": "localhost",
+      "port": "9200",
+      "clusterName": "test-cluster-name",
+      "index": "test_data_generator"
     }
   },
   "templates": [
     {
-      "id": "user1",
+      "id": "user",
       "count": 10,
       "name": "user",
       "fields": [
@@ -42,34 +44,14 @@
       ]
     },
     {
+      "id": "user1",
+      "count": 10,
+      "extend": "user"
+    },
+    {
       "id": "user2",
       "count": 1,
-      "name": "user",
-      "fields": [
-        {
-          "name": "id",
-          "type": "long",
-          "provider": {
-            "name": "expr",
-            "props": {
-              "expr": "userId++"
-            }
-          }
-        },
-        {
-          "name": "email",
-          "type": "string",
-          "provider": {
-            "name": "const",
-            "props": {
-              "value": "test@email.com"
-            }
-          }
-        }
-      ],
-      "childs": [
-        "training1"
-      ]
+      "extend": "user"
     },
     {
       "id": "training1",

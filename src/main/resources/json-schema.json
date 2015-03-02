@@ -85,7 +85,7 @@
               }
             }
           },
-          "child": {
+          "childs": {
             "type": "array",
             "items":{
               "type":"string"

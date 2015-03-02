@@ -19,13 +19,16 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Assert;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class EsDirectTest extends AbstractEsTest {
 
     private String indexName = "test_data_generator";
 
     @Override
-    protected String getSchemaResource() {
-        return "test-es-direct-schema.json";
+    protected List<String> getSchemaResource() {
+        return Arrays.asList("test-es-direct-schema.json");
     }
 
     @Override

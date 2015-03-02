@@ -37,7 +37,7 @@
                     }
                 }
             ],
-            "child": [
+            "childs": [
                 "training1"
             ]
         },
@@ -67,7 +67,7 @@
                     }
                 }
             ],
-            "child": [
+            "childs": [
                 "training1"
             ]
         },
@@ -117,7 +117,7 @@
                     }
                 }
             ],
-            "child": [
+            "childs": [
                 "exercise1"
             ]
         },

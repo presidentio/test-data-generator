@@ -149,7 +149,7 @@ You can user placeholder in any string field value. Placeholder format is ${plac
                     }
                 }
             ],
-            "child": [
+            "childs": [
                 "training1"
             ]
         },
@@ -179,7 +179,7 @@ You can user placeholder in any string field value. Placeholder format is ${plac
                     }
                 }
             ],
-            "child": [
+            "childs": [
                 "training1"
             ]
         },
@@ -229,7 +229,7 @@ You can user placeholder in any string field value. Placeholder format is ${plac
                     }
                 }
             ],
-            "child":[
+            "childs":[
                 "exercise1"
             ]
         },

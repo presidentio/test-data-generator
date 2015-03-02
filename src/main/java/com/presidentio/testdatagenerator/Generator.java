@@ -19,12 +19,14 @@ import com.presidentio.testdatagenerator.context.Parent;
 import com.presidentio.testdatagenerator.model.*;
 import com.presidentio.testdatagenerator.output.Sink;
 import com.presidentio.testdatagenerator.output.SinkFactory;
+import com.presidentio.testdatagenerator.provider.DefaultValueProviderFactory;
 import com.presidentio.testdatagenerator.provider.ValueProvider;
 import com.presidentio.testdatagenerator.provider.ValueProviderFactory;
-import com.presidentio.testdatagenerator.provider.DefaultValueProviderFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Generator {
 
@@ -32,6 +34,7 @@ public class Generator {
     private SinkFactory sinkFactory = new SinkFactory();
 
     public void generate(Schema schema) {
+        validateSchema(schema);
         Context context = buildContext(schema);
         for (String rootTemplateId : schema.getRoot()) {
             Template rootTemplate = context.getTemplates().get(rootTemplateId);
@@ -51,7 +54,7 @@ public class Generator {
                 entity.put(field.getName(), valueProvider.nextValue(context, field));
             }
             context.getSink().process(template, entity);
-            for (String childTemplateId : template.getChild()) {
+            for (String childTemplateId : template.getChilds()) {
                 Template childTemplate = context.getTemplates().get(childTemplateId);
                 if (childTemplate == null) {
                     throw new IllegalArgumentException("Template with id does not defined: " + childTemplateId);
@@ -60,6 +63,16 @@ public class Generator {
                 generateEntity(context, childTemplate);
                 context.setParent(context.getParent().getParent());
             }
+        }
+    }
+
+    private void validateSchema(Schema schema) {
+        assert schema.getOutput() != null;
+        Set<String> templateIds = new HashSet<>(schema.getTemplates().size());
+        for (Template template : schema.getTemplates()) {
+            assert !templateIds.contains(template.getId());
+            templateIds.add(template.getId());
+            assert !(template.getExtend() == null ^ template.getExtendTemplate() == null);
         }
     }
 

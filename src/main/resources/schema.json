@@ -1,6 +1,6 @@
 {
   "output": {
-    "type": "sql",
+    "type": "sql-file",
     "props": {
       "file": "./a.sql"
     }
@@ -53,7 +53,7 @@
           }
         }
       ],
-      "child": [
+      "childs": [
         "training1"
       ]
     },
@@ -83,7 +83,7 @@
           }
         }
       ],
-      "child": [
+      "childs": [
         "training1"
       ]
     },
@@ -133,7 +133,7 @@
           }
         }
       ],
-      "child":[
+      "childs":[
         "exercise1"
       ]
     },

@@ -13,6 +13,8 @@
  */
 package com.presidentio.testdatagenerator.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +22,18 @@ public class Template {
 
     private String id;
 
+    private String extend;
+
+    @JsonIgnore
+    private Template extendTemplate;
+
     private int count;
 
     private String name;
 
     private List<Field> fields;
 
-    private List<String> child = new ArrayList<>();
+    private List<String> childs = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -34,6 +41,22 @@ public class Template {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getExtend() {
+        return extend;
+    }
+
+    public void setExtend(String extend) {
+        this.extend = extend;
+    }
+
+    public Template getExtendTemplate() {
+        return extendTemplate;
+    }
+
+    public void setExtendTemplate(Template extendTemplate) {
+        this.extendTemplate = extendTemplate;
     }
 
     public int getCount() {
@@ -45,6 +68,9 @@ public class Template {
     }
 
     public String getName() {
+        if (name == null && extendTemplate != null) {
+            return extendTemplate.getName();
+        }
         return name;
     }
 
@@ -53,6 +79,9 @@ public class Template {
     }
 
     public List<Field> getFields() {
+        if (fields == null && extendTemplate != null) {
+            return extendTemplate.getFields();
+        }
         return fields;
     }
 
@@ -60,12 +89,15 @@ public class Template {
         this.fields = fields;
     }
 
-    public List<String> getChild() {
-        return child;
+    public List<String> getChilds() {
+        if ((childs == null || childs.isEmpty()) && extendTemplate != null) {
+            return extendTemplate.getChilds();
+        }
+        return childs;
     }
 
-    public void setChild(List<String> child) {
-        this.child = child;
+    public void setChilds(List<String> childs) {
+        this.childs = childs;
     }
 
     @Override

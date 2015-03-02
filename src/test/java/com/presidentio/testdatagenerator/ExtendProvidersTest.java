@@ -28,6 +28,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class ExtendProvidersTest extends AbstractSqlTest {
@@ -35,8 +37,8 @@ public class ExtendProvidersTest extends AbstractSqlTest {
     private Long testProviderValue = 123L;
 
     @Override
-    protected String getSchemaResource() {
-        return "extend-providers-test-schema.json";
+    protected List<String> getSchemaResource() {
+        return Arrays.asList("extend-providers-test-schema.json");
     }
 
     @Override

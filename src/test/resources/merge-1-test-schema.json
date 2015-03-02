@@ -1,0 +1,78 @@
+{
+  "output": {
+    "type": "es-direct",
+    "props": {
+      "host": "localhost",
+      "port": "9200",
+      "clusterName": "test-cluster-name",
+      "index": "test_data_generator"
+    }
+  },
+  "templates": [
+    {
+      "id": "user1",
+      "count": 10,
+      "extend": "user"
+    },
+    {
+      "id": "training1",
+      "count": 5,
+      "name": "training",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "trainingId++"
+            }
+          }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "provider": {
+            "name": "random",
+            "props": {
+              "size": 10
+            }
+          }
+        },
+        {
+          "name": "week",
+          "type": "int",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "0 | 1 | 8"
+            }
+          }
+        },
+        {
+          "name": "userId",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "parent.id"
+            }
+          }
+        }
+      ],
+      "childs": [
+        "exercise1"
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "exerciseId",
+      "type": "long",
+      "initValue": "1"
+    }
+  ],
+  "root": [
+    "user1"
+  ]
+}
