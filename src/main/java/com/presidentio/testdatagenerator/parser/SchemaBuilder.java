@@ -69,6 +69,9 @@ public class SchemaBuilder {
         if (schema1.getOutput() != null && schema2.getOutput() != null) {
             throw new IllegalArgumentException("Can't merge two outputs");
         }
+        if (schema1.getOutput() == null) {
+            schema1.setOutput(schema2.getOutput());
+        }
         return schema1;
     }
 
