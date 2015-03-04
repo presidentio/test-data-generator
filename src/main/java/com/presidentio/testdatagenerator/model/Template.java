@@ -27,7 +27,7 @@ public class Template {
     @JsonIgnore
     private Template extendTemplate;
 
-    private int count;
+    private Integer count;
 
     private String name;
 
@@ -59,11 +59,14 @@ public class Template {
         this.extendTemplate = extendTemplate;
     }
 
-    public int getCount() {
+    public Integer getCount() {
+        if (count == null && extendTemplate != null) {
+            return extendTemplate.getCount();
+        }
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
@@ -79,10 +82,14 @@ public class Template {
     }
 
     public List<Field> getFields() {
-        if (fields == null && extendTemplate != null) {
-            return extendTemplate.getFields();
+        List<Field> result = new ArrayList<>();
+        if (extendTemplate != null && extendTemplate.getFields() != null) {
+            result.addAll(extendTemplate.getFields());
         }
-        return fields;
+        if (fields != null) {
+            result.addAll(fields);
+        }
+        return result;
     }
 
     public void setFields(List<Field> fields) {
@@ -90,10 +97,14 @@ public class Template {
     }
 
     public List<String> getChilds() {
-        if ((childs == null || childs.isEmpty()) && extendTemplate != null) {
-            return extendTemplate.getChilds();
+        List<String> result = new ArrayList<>();
+        if (extendTemplate != null && extendTemplate.getChilds() != null) {
+            result.addAll(extendTemplate.getChilds());
         }
-        return childs;
+        if (childs != null) {
+            result.addAll(childs);
+        }
+        return result;
     }
 
     public void setChilds(List<String> childs) {
