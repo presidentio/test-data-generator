@@ -32,7 +32,8 @@ public class ExpressionProviderTest {
         props.put(PropConst.EXPR, propExpr);
         ExpressionProvider expressionProvider = new ExpressionProvider();
         expressionProvider.init(props);
-        Object result = expressionProvider.nextValue(new Context(), new Field(null, TypeConst.INT, null));
+        Context context = new Context(null, new HashMap<String, Object>(), null);
+        Object result = expressionProvider.nextValue(context, new Field(null, TypeConst.INT, null));
         Assert.assertEquals(12, result);
     }
 
@@ -43,11 +44,10 @@ public class ExpressionProviderTest {
         props.put(PropConst.EXPR, propExpr);
         ExpressionProvider expressionProvider = new ExpressionProvider();
         expressionProvider.init(props);
-        Context context = new Context();
         Map<String, Object> variables = new HashMap<>();
         variables.put("a", 5);
         variables.put("b", 2);
-        context.setVariables(variables);
+        Context context = new Context(null, variables, null);
         Object result = expressionProvider.nextValue(context, new Field(null, TypeConst.INT, null));
         Assert.assertEquals(26, result);
     }
@@ -59,11 +59,10 @@ public class ExpressionProviderTest {
         props.put(PropConst.EXPR, propExpr);
         ExpressionProvider expressionProvider = new ExpressionProvider();
         expressionProvider.init(props);
-        Context context = new Context();
         Map<String, Object> variables = new HashMap<>();
         variables.put("a", "abc");
         variables.put("b", "zxc");
-        context.setVariables(variables);
+        Context context = new Context(null, variables, null);
         Object result = expressionProvider.nextValue(context, new Field(null, TypeConst.STRING, null));
         Assert.assertEquals("abczxc", result);
     }
@@ -75,16 +74,15 @@ public class ExpressionProviderTest {
         props.put(PropConst.EXPR, propExpr);
         ExpressionProvider expressionProvider = new ExpressionProvider();
         expressionProvider.init(props);
-        Context context = new Context();
         Map<String, Object> variables = new HashMap<>();
         variables.put("a", "1");
         variables.put("b", "1");
-        context.setVariables(variables);
+        Context context = new Context(null, variables, null);
         Object result = expressionProvider.nextValue(context, new Field(null, TypeConst.STRING, null));
         Assert.assertEquals("11", result);
         variables.put("a", 1);
         variables.put("b", 1);
-        context.setVariables(variables);
+        context = new Context(null, variables, null);
         result = expressionProvider.nextValue(context, new Field(null, TypeConst.INT, null));
         Assert.assertEquals(2, result);
         result = expressionProvider.nextValue(context, new Field(null, TypeConst.LONG, null));

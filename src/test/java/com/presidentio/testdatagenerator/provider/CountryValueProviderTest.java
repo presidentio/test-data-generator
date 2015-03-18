@@ -30,6 +30,6 @@ public class CountryValueProviderTest {
     public void testNextValue() throws Exception {
         ValueProvider valueProvider = new CountryProvider();
         valueProvider.init(Collections.emptyMap());
-        Assert.assertNotNull(valueProvider.nextValue(new Context(), new Field(null, TypeConst.STRING, null)));
+        Assert.assertNotNull(valueProvider.nextValue(new Context(null, null, null), new Field(null, TypeConst.STRING, null)));
     }
 }

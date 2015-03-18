@@ -14,7 +14,7 @@ public abstract class AbstractBufferedSink implements Sink {
 
     private Formatter formatter;
 
-    private int bufferSize = 100;
+    private int bufferSize = 1000;
     private boolean bufferingEnabled = true;
 
     protected void init(Formatter formatter) {

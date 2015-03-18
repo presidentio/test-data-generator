@@ -28,35 +28,33 @@ public class Context {
 
     private Sink sink;
 
-    public Parent getParent() {
-        return parent;
+    public Context(Map<String, Template> templates, Map<String, Object> variables, Sink sink) {
+        this.templates = templates;
+        this.variables = variables;
+        this.sink = sink;
     }
 
-    public void setParent(Parent parent) {
-        this.parent = parent;
+    public Context(Context parentContext, Map<String, Object> entity) {
+        parent = new Parent(entity, parentContext.getParent());
+        templates = parentContext.getTemplates();
+        variables = parentContext.getVariables();
+        sink = parentContext.getSink();
+    }
+
+    public Parent getParent() {
+        return parent;
     }
 
     public Map<String, Object> getVariables() {
         return variables;
     }
 
-    public void setVariables(Map<String, Object> variables) {
-        this.variables = variables;
-    }
-
     public Sink getSink() {
         return sink;
-    }
-
-    public void setSink(Sink sink) {
-        this.sink = sink;
     }
 
     public Map<String, Template> getTemplates() {
         return templates;
     }
 
-    public void setTemplates(Map<String, Template> templates) {
-        this.templates = templates;
-    }
 }

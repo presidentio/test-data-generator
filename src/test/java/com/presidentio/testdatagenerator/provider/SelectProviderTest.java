@@ -35,7 +35,7 @@ public class SelectProviderTest {
         selectProvider.init(props);
 
         List items = Arrays.asList(propItems.split(propDelimiter));
-        Object result = selectProvider.nextValue(new Context(), new Field("testField", TypeConst.STRING, null));
+        Object result = selectProvider.nextValue(new Context(null, null, null), new Field("testField", TypeConst.STRING, null));
         Assert.assertTrue(items.contains(result));
     }
 }

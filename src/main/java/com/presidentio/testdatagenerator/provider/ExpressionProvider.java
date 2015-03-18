@@ -60,6 +60,8 @@ public class ExpressionProvider implements ValueProvider<Object> {
             default:
                 throw new IllegalArgumentException("Field type not known: " + field.getType());
         }
-        return MVEL.executeExpression(compiledExpression, context, context.getVariables(), type);
+        synchronized (context.getVariables()) {
+            return MVEL.executeExpression(compiledExpression, context, context.getVariables(), type);
+        }
     }
 }

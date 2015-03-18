@@ -13,56 +13,34 @@
  */
 package com.presidentio.testdatagenerator;
 
-import com.presidentio.testdatagenerator.cons.TypeConst;
-import com.presidentio.testdatagenerator.context.Context;
-import com.presidentio.testdatagenerator.context.Parent;
-import com.presidentio.testdatagenerator.model.*;
-import com.presidentio.testdatagenerator.output.Sink;
+import com.presidentio.testdatagenerator.model.Schema;
+import com.presidentio.testdatagenerator.model.Template;
 import com.presidentio.testdatagenerator.output.SinkFactory;
 import com.presidentio.testdatagenerator.provider.DefaultValueProviderFactory;
-import com.presidentio.testdatagenerator.provider.ValueProvider;
 import com.presidentio.testdatagenerator.provider.ValueProviderFactory;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 public class Generator {
+
+    private boolean async = false;
 
     private ValueProviderFactory valueProviderFactory = new DefaultValueProviderFactory();
     private SinkFactory sinkFactory = new SinkFactory();
 
     public void generate(Schema schema) {
         validateSchema(schema);
-        Context context = buildContext(schema);
-        for (String rootTemplateId : schema.getRoot()) {
-            Template rootTemplate = context.getTemplates().get(rootTemplateId);
-            if (rootTemplate == null) {
-                throw new IllegalArgumentException("Template with id does not defined: " + rootTemplateId);
-            }
-            generateEntity(context, rootTemplate);
-        }
-        context.getSink().close();
-    }
-
-    private void generateEntity(Context context, Template template) {
-        for (int i = 0; i < template.getCount(); i++) {
-            Map<String, Object> entity = new HashMap<>();
-            for (Field field : template.getFields()) {
-                ValueProvider valueProvider = valueProviderFactory.buildValueProvider(field.getProvider());
-                entity.put(field.getName(), valueProvider.nextValue(context, field));
-            }
-            context.getSink().process(template, entity);
-            for (String childTemplateId : template.getChilds()) {
-                Template childTemplate = context.getTemplates().get(childTemplateId);
-                if (childTemplate == null) {
-                    throw new IllegalArgumentException("Template with id does not defined: " + childTemplateId);
-                }
-                context.setParent(new Parent(entity, context.getParent()));
-                generateEntity(context, childTemplate);
-                context.setParent(context.getParent().getParent());
-            }
+        InitTask initTask = new InitTask(schema);
+        initTask.setSinkFactory(sinkFactory);
+        initTask.setValueProviderFactory(valueProviderFactory);
+        initTask.setAsync(async);
+        if (async) {
+            ForkJoinPool forkJoinPool = new ForkJoinPool();
+            forkJoinPool.invoke(initTask);
+        } else {
+            initTask.compute();
         }
     }
 
@@ -76,43 +54,6 @@ public class Generator {
         }
     }
 
-    private Context buildContext(Schema schema) {
-        Context context = new Context();
-        Map<String, Object> variables = new HashMap<>();
-        for (Variable variable : schema.getVariables()) {
-            Object initValue;
-            switch (variable.getType()) {
-                case TypeConst.STRING:
-                    initValue = variable.getInitValue();
-                    break;
-                case TypeConst.LONG:
-                    initValue = Long.valueOf(variable.getInitValue());
-                    break;
-                case TypeConst.INT:
-                    initValue = Integer.valueOf(variable.getInitValue());
-                    break;
-                case TypeConst.BOOLEAN:
-                    initValue = Boolean.valueOf(variable.getInitValue());
-                    break;
-                default:
-                    throw new IllegalArgumentException("Variable type not known: " + variable.getType());
-            }
-
-            variables.put(variable.getName(), initValue);
-        }
-        context.setVariables(variables);
-
-        context.setSink(buildSink(schema.getOutput()));
-
-        Map<String, Template> templates = new HashMap<>();
-        for (Template template : schema.getTemplates()) {
-            templates.put(template.getId(), template);
-        }
-        context.setTemplates(templates);
-
-        return context;
-    }
-
     public ValueProviderFactory getValueProviderFactory() {
         return valueProviderFactory;
     }
@@ -121,8 +62,11 @@ public class Generator {
         this.valueProviderFactory = valueProviderFactory;
     }
 
-    private Sink buildSink(Output output) {
-        return sinkFactory.getSink(output);
+    public boolean isAsync() {
+        return async;
     }
 
+    public void setAsync(boolean async) {
+        this.async = async;
+    }
 }

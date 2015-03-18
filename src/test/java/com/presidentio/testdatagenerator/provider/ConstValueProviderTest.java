@@ -39,16 +39,16 @@ public class ConstValueProviderTest {
         ConstValueProvider constValueProvider = new ConstValueProvider();
         constValueProvider.init(props);
 
-        Object result = constValueProvider.nextValue(new Context(), new Field("testField", TypeConst.STRING, null));
+        Object result = constValueProvider.nextValue(new Context(null, null, null), new Field("testField", TypeConst.STRING, null));
         Assert.assertEquals(propValue, result);
 
-        result = constValueProvider.nextValue(new Context(), new Field("testField", TypeConst.BOOLEAN, null));
+        result = constValueProvider.nextValue(new Context(null, null, null), new Field("testField", TypeConst.BOOLEAN, null));
         Assert.assertEquals(Boolean.valueOf(propValue), result);
 
-        result = constValueProvider.nextValue(new Context(), new Field("testField", TypeConst.INT, null));
+        result = constValueProvider.nextValue(new Context(null, null, null), new Field("testField", TypeConst.INT, null));
         Assert.assertEquals(Integer.valueOf(propValue), result);
 
-        result = constValueProvider.nextValue(new Context(), new Field("testField", TypeConst.LONG, null));
+        result = constValueProvider.nextValue(new Context(null, null, null), new Field("testField", TypeConst.LONG, null));
         Assert.assertEquals(Long.valueOf(propValue), result);
 
     }
