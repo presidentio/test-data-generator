@@ -23,9 +23,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExpressionProvider implements ValueProvider<Object> {
+public class ExpressionProvider implements ValueProvider {
 
     private String expr;
+    private Serializable compiledExpression;
 
     @Override
     public void init(Map<String, String> props) {
@@ -37,12 +38,11 @@ public class ExpressionProvider implements ValueProvider<Object> {
         if (!propsCopy.isEmpty()) {
             throw new IllegalArgumentException("Redundant props for " + getClass().getName() + ": " + propsCopy);
         }
-
+        compiledExpression = MVEL.compileExpression(expr);
     }
 
     @Override
     public Object nextValue(Context context, Field field) {
-        Serializable compiledExpression = MVEL.compileExpression(expr);
         Class type;
         switch (field.getType()) {
             case TypeConst.STRING:

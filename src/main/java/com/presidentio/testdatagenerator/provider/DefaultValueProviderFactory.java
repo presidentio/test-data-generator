@@ -36,7 +36,7 @@ public class DefaultValueProviderFactory implements ValueProviderFactory {
                 valueProvider = new EmailProvider();
                 break;
             case ValueProviderNameConst.EXPR:
-                valueProvider = new ExpressionProvider();
+                valueProvider = new ExpressionProxyProvider();
                 break;
             case ValueProviderNameConst.RANDOM:
                 valueProvider = new RandomProvider();

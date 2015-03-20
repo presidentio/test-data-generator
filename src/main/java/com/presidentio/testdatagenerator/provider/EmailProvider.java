@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EmailProvider implements ValueProvider<String> {
+public class EmailProvider implements ValueProvider {
 
     private RandomProvider randomProvider;
 

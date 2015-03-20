@@ -29,7 +29,7 @@ public class CountryValueProviderTest {
     @Test
     public void testNextValue() throws Exception {
         ValueProvider valueProvider = new CountryProvider();
-        valueProvider.init(Collections.emptyMap());
+        valueProvider.init(Collections.<String, String>emptyMap());
         Assert.assertNotNull(valueProvider.nextValue(new Context(null, null, null), new Field(null, TypeConst.STRING, null)));
     }
 }

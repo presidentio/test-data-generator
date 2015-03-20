@@ -62,6 +62,10 @@ public class Generator {
         this.valueProviderFactory = valueProviderFactory;
     }
 
+    public void setSinkFactory(SinkFactory sinkFactory) {
+        this.sinkFactory = sinkFactory;
+    }
+
     public boolean isAsync() {
         return async;
     }

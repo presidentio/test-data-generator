@@ -30,5 +30,9 @@ public class PropConst {
     public static final String CLUSTER_NAME = "clusterName";
     public static final String CONNECTION_URL = "connectionUrl";
     public static final String JDBC_DRIVER = "jdbcDriver";
+    public static final String DEPTH = "depth";
+    public static final String FIELD = "field";
+    public static final String VAR = "var";
+    public static final String OP = "op";
 
 }

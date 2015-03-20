@@ -21,7 +21,7 @@ import com.presidentio.testdatagenerator.model.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConstValueProvider implements ValueProvider<Object> {
+public class ConstValueProvider implements ValueProvider {
 
     private String value;
 

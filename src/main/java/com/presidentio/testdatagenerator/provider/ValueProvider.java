@@ -18,10 +18,10 @@ import com.presidentio.testdatagenerator.model.Field;
 
 import java.util.Map;
 
-public interface ValueProvider<Type> {
-    
+public interface ValueProvider {
+
     void init(Map<String, String> props);
 
-    Type nextValue(Context context, Field field);
+    Object nextValue(Context context, Field field);
 
 }
