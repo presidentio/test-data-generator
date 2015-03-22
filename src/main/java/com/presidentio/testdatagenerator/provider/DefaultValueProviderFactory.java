@@ -50,6 +50,12 @@ public class DefaultValueProviderFactory implements ValueProviderFactory {
             case ValueProviderNameConst.COUNTRY:
                 valueProvider = new CountryProvider();
                 break;
+            case ValueProviderNameConst.COUNTER:
+                valueProvider = new CounterProvider();
+                break;
+            case ValueProviderNameConst.PARENT:
+                valueProvider = new ParentProvider();
+                break;
             default:
                 return null;
         }

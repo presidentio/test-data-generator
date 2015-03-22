@@ -7,13 +7,12 @@ Tools to generate data for testing
 <dependency>
     <groupId>com.presidentio</groupId>
     <artifactId>test-data-generator</artifactId>
-    <version>1.0</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
 ```
-SchemaSerializer schemaSerializer = new JsonSchemaSerializer();
-Schema schema = schemaSerializer.deserialize(Starter.class.getClassLoader().getResourceAsStream("schema.json"));
+Schema schema = new SchemaBuilder().fromResource("schema.json").build();
 Generator generator = new Generator();
 generator.generate(schema);
 ```
@@ -59,7 +58,11 @@ Properties:
 
 ##### people-name
 
-Return real name.
+Return real people name.
+
+##### country
+
+Return real country name.
 
 ## Output
 
@@ -107,6 +110,64 @@ You can user placeholder in any string field value. Placeholder format is ${plac
 ##### Available:
 * ${tmp} - replacing with path to tmp directory
 
+
+## Schema extending
+
+##### Merge to schemas in one:
+
+```
+Schema schema = new SchemaBuilder()
+    .fromResource("schema1.json")
+    .fromResource("schema2.json")
+    .build();
+...
+```
+
+##### Template extending
+```
+...
+  "templates": [
+    {
+      "id": "user",
+      "count": 10,
+      "name": "user",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "userId++"
+            }
+          }
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "provider": {
+            "name": "email"
+          }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "provider": {
+            "name": "people-name"
+          }
+        }
+      ],
+      "childs": [
+        "training1"
+      ]
+    },
+    {
+      "id": "user1",
+      "count": 10,
+      "extend": "user"
+    },
+...
+```
 
 ## Schema example
 

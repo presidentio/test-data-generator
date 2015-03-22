@@ -22,5 +22,7 @@ public class ValueProviderNameConst {
     public static final String SELECT = "select";
     public static final String PEOPLE_NAME = "people-name";
     public static final String COUNTRY = "country";
+    public static final String PARENT = "parent";
+    public static final String COUNTER = "counter";
 
 }
