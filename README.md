@@ -70,20 +70,15 @@ Return real country name.
 
 Print all generate data to the System.out
 
-##### sql-file
+##### file
 
 Write sql formatted data to file.
 
 Properties:
-* *file* - required, file to save sql
+* *file* - required, file to save data
+* *format* - one of csv, tsv, sv(require *deimiter* property), sql, es(require *index* property), default is csv
 
-##### es-file
-
-Write Elastic Search bulk formatted data to file.
-
-Properties:
-* *file* - required, file to save json
-* *index* - required, index name
+Note: Be care with first three formats, they works well only with identically structured templates  
 
 ##### sql-direct
 
@@ -174,9 +169,10 @@ Schema schema = new SchemaBuilder()
 ```
 {
     "output": {
-        "type": "sql-file",
+        "type": "file",
         "props": {
-            "file": "${tmp}/a.sql"
+            "file": "${tmp}/a.sql",
+            "format": "sql"
         }
     },
     "templates": [
