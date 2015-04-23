@@ -24,5 +24,6 @@ public class ValueProviderNameConst {
     public static final String COUNTRY = "country";
     public static final String PARENT = "parent";
     public static final String COUNTER = "counter";
+    public static final String TIME = "time";
 
 }

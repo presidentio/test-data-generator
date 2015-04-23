@@ -64,6 +64,10 @@ Return real people name.
 
 Return real country name.
 
+##### time
+
+Return real time value in milliseconds
+
 ## Output
 
 ##### console
@@ -108,7 +112,7 @@ You can user placeholder in any string field value. Placeholder format is ${plac
 
 ## Schema extending
 
-##### Merge to schemas in one:
+##### Merge two schemas in one:
 
 ```
 Schema schema = new SchemaBuilder()
