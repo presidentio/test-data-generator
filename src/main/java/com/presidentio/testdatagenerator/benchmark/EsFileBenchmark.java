@@ -14,7 +14,6 @@ public class EsFileBenchmark {
 
     @Fork(1)
     @Warmup(iterations = 3)
-    @BenchmarkMode(Mode.AverageTime)
     @Benchmark
     public void measureEsDirect() {
         SchemaBuilder schemaBuilder = new SchemaBuilder();
