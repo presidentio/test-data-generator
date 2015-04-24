@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,12 +13,18 @@
  */
 package com.presidentio.testdatagenerator.output;
 
+import com.presidentio.testdatagenerator.cons.DelimiterConst;
+import com.presidentio.testdatagenerator.cons.FileFormatConst;
 import com.presidentio.testdatagenerator.cons.PropConst;
+import com.presidentio.testdatagenerator.output.formatter.EsFormatter;
+import com.presidentio.testdatagenerator.output.formatter.Formatter;
+import com.presidentio.testdatagenerator.output.formatter.SqlFormatter;
+import com.presidentio.testdatagenerator.output.formatter.SvFormatter;
 
 import java.io.*;
 import java.util.Map;
 
-public abstract class AbstractFileSink extends AbstractBufferedSink {
+public class FileSink extends AbstractBufferedSink {
 
     private BufferedOutputStream outputStream;
 
@@ -37,6 +43,18 @@ public abstract class AbstractFileSink extends AbstractBufferedSink {
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Failed to create file sink", e);
         }
+
+        String format = props.get(PropConst.FORMAT);
+        if (format == null) {
+            format = FileFormatConst.CSV;
+        }
+        if (!FileFormatConst.ALL.contains(format)) {
+            throw new IllegalArgumentException(PropConst.FORMAT + " is incorrect. Must be one of: "
+                    + FileFormatConst.ALL);
+        }
+        Formatter formatter = getFormatter(format);
+        formatter.init(props);
+        init(formatter);
     }
 
     @Override
@@ -55,6 +73,23 @@ public abstract class AbstractFileSink extends AbstractBufferedSink {
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private Formatter getFormatter(String format) {
+        switch (format) {
+            case FileFormatConst.CSV:
+                return new SvFormatter(DelimiterConst.COMMA);
+            case FileFormatConst.TSV:
+                return new SvFormatter(DelimiterConst.TAB);
+            case FileFormatConst.JSON:
+                throw new UnsupportedOperationException("json haven't implemented yet");
+            case FileFormatConst.SQL:
+                return new SqlFormatter();
+            case FileFormatConst.ES:
+                return new EsFormatter();
+            default:
+                throw new IllegalArgumentException("unknown format: " + format);
         }
     }
 }

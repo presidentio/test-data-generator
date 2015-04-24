@@ -1,5 +1,6 @@
 package com.presidentio.testdatagenerator.output.formatter;
 
+import com.presidentio.testdatagenerator.cons.DelimiterConst;
 import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.model.Template;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -14,7 +15,6 @@ import java.util.Map;
 public class EsFormatter implements Formatter {
 
     private static final String INDEX = "{ \"index\" : { \"_index\" : \"%s\", \"_type\" : \"%s\"} }";
-    private static final String NEW_LINE = "\n";
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -32,10 +32,10 @@ public class EsFormatter implements Formatter {
     @Override
     public String format(Map<String, Object> map, Template template) {
         String result = String.format(INDEX, index, template.getName());
-        result += NEW_LINE;
+        result += DelimiterConst.NEW_LINE;
         try {
             result += objectMapper.writeValueAsString(map);
-            result += NEW_LINE;
+            result += DelimiterConst.NEW_LINE;
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

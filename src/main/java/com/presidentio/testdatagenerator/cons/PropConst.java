@@ -34,5 +34,7 @@ public class PropConst {
     public static final String FIELD = "field";
     public static final String VAR = "var";
     public static final String OP = "op";
+    public static final String FORMAT = "format";
+    public static final String HEADER = "header";
 
 }

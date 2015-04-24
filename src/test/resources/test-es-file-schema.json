@@ -1,9 +1,10 @@
 {
     "output": {
-        "type": "es-file",
+        "type": "file",
         "props": {
             "file": "${tmp}/es.json",
-            "index": "test_data_generator"
+            "index": "test_data_generator",
+            "format": "es"
         }
     },
     "templates": [

@@ -2,8 +2,7 @@
     "output": {
         "type": "file",
         "props": {
-            "file": "${tmp}/a.sql",
-            "format": "sql"
+            "file": "${tmp}/a.csv"
         }
     },
     "templates": [

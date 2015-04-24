@@ -24,14 +24,11 @@ public class SinkFactory {
             case SinkTypeConst.CONSOLE:
                 sink = new ConsoleSink();
                 break;
-            case SinkTypeConst.SQL_FILE:
-                sink = new SqlFileSink();
+            case SinkTypeConst.FILE:
+                sink = new FileSink();
                 break;
             case SinkTypeConst.SQL_DIRECT:
                 sink = new SqlDirectSink();
-                break;
-            case SinkTypeConst.ES_FILE:
-                sink = new EsFileSink();
                 break;
             case SinkTypeConst.ES_DIRECT:
                 sink = new EsDirectSink();

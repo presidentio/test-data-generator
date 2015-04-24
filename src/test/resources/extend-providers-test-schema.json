@@ -1,8 +1,9 @@
 {
     "output": {
-        "type": "sql-file",
+        "type": "file",
         "props": {
-            "file": "${tmp}/a.sql"
+            "file": "${tmp}/a.sql",
+            "format": "sql"
         }
     },
     "templates": [

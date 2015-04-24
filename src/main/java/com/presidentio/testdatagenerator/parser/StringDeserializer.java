@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class StringDeserializer extends JsonDeserializer<String> {
 
-    private static final Pattern REGEX = Pattern.compile("\\$\\{(\\w+)\\}");
+    private static final Pattern REGEX = Pattern.compile("\\$\\{(\\w+)}");
 
     @Override
     public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
@@ -28,7 +28,7 @@ public class StringDeserializer extends JsonDeserializer<String> {
             String group = matcher.group(1);
             result.append(s.substring(curIndex, matcher.start()));
             result.append(evaluate(group));
-            curIndex = matcher.end() + 1;
+            curIndex = matcher.end();
         }
         result.append(s.substring(curIndex, s.length()));
         return result.toString();
