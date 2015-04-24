@@ -1,6 +1,6 @@
 package com.presidentio.testdatagenerator.benchmark;
 
-import com.presidentio.testdatagenerator.Generator;
+import com.presidentio.testdatagenerator.OneTimeGenerator;
 import com.presidentio.testdatagenerator.model.Schema;
 import com.presidentio.testdatagenerator.parser.SchemaBuilder;
 import org.openjdk.jmh.annotations.*;
@@ -21,7 +21,7 @@ public class EsFileBenchmark {
             schemaBuilder.fromResource(resource);
         }
         Schema schema = schemaBuilder.build();
-        Generator generator = new Generator();
+        OneTimeGenerator generator = new OneTimeGenerator();
         generator.generate(schema);
     }
 }

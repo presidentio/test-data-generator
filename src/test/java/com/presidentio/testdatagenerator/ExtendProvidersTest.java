@@ -42,8 +42,8 @@ public class ExtendProvidersTest extends AbstractSqlTest {
     }
 
     @Override
-    protected Generator buildGenerator() {
-        Generator generator = new Generator();
+    protected OneTimeGenerator buildGenerator() {
+        OneTimeGenerator generator = new OneTimeGenerator();
         ValueProviderFactory valueProviderFactory = DefaultValueProviderFactory.defaultProvider().extend(new ValueProviderFactory() {
             @Override
             public ValueProvider buildValueProvider(final Provider provider) {

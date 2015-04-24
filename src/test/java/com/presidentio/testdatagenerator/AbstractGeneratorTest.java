@@ -24,8 +24,8 @@ public abstract class AbstractGeneratorTest {
 
     protected abstract List<String> getSchemaResource();
 
-    protected Generator buildGenerator() {
-        return new Generator();
+    protected OneTimeGenerator buildGenerator() {
+        return new OneTimeGenerator();
     }
 
     @Test
@@ -35,7 +35,7 @@ public abstract class AbstractGeneratorTest {
             schemaBuilder.fromResource(resource);
         }
         Schema schema = schemaBuilder.build();
-        Generator generator = buildGenerator();
+        OneTimeGenerator generator = buildGenerator();
         generator.generate(schema);
         testResult(schema.getOutput());
     }

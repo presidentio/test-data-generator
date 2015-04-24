@@ -49,7 +49,7 @@ public class Starter {
     public void start() throws IOException {
         SchemaSerializer schemaSerializer = new JsonSchemaSerializer();
         Schema schema = schemaSerializer.deserialize(new FileInputStream(schemaFile));
-        Generator generator = new Generator();
+        OneTimeGenerator generator = new OneTimeGenerator();
         if (threadCount != null) {
             generator.setThreadCount(threadCount);
         }

@@ -78,7 +78,7 @@ public class GenerateTask extends RecursiveAction {
     }
 
     @Override
-    protected void compute() {
+    public void compute() {
         generateEntity(context, template);
     }
 }
