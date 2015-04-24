@@ -2,6 +2,7 @@
     "output": {
         "type": "file",
         "props": {
+            "pathProvider":"const",
             "file": "${tmp}/es.json",
             "index": "test_data_generator",
             "format": "es"

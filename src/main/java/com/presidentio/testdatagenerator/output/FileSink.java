@@ -15,34 +15,30 @@ package com.presidentio.testdatagenerator.output;
 
 import com.presidentio.testdatagenerator.cons.DelimiterConst;
 import com.presidentio.testdatagenerator.cons.FileFormatConst;
+import com.presidentio.testdatagenerator.cons.PathProviderConst;
 import com.presidentio.testdatagenerator.cons.PropConst;
+import com.presidentio.testdatagenerator.model.Template;
 import com.presidentio.testdatagenerator.output.formatter.EsFormatter;
 import com.presidentio.testdatagenerator.output.formatter.Formatter;
 import com.presidentio.testdatagenerator.output.formatter.SqlFormatter;
 import com.presidentio.testdatagenerator.output.formatter.SvFormatter;
+import com.presidentio.testdatagenerator.output.path.ConstPathProvider;
+import com.presidentio.testdatagenerator.output.path.PathProvider;
+import com.presidentio.testdatagenerator.output.path.TimeBasedPathProvider;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 public class FileSink extends AbstractBufferedSink {
 
-    private BufferedOutputStream outputStream;
+    private Map<String, BufferedOutputStream> outputStreams = new HashMap<>();
+
+    private PathProvider pathProvider;
 
     @Override
     public void init(Map<String, String> props) {
-        String file = props.get(PropConst.FILE);
-        if (file == null) {
-            throw new IllegalArgumentException(PropConst.FILE + " does not specified or null");
-        }
-        try {
-            File outFile = new File(file);
-            if (!outFile.getParentFile().exists()) {
-                outFile.getParentFile().mkdirs();
-            }
-            outputStream = new BufferedOutputStream(new FileOutputStream(file));
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Failed to create file sink", e);
-        }
+        pathProvider = getPathProvider(props);
 
         String format = props.get(PropConst.FORMAT);
         if (format == null) {
@@ -58,11 +54,12 @@ public class FileSink extends AbstractBufferedSink {
     }
 
     @Override
-    public void write(String query) {
+    public void write(Object partition, String formatted) {
+        String filePath = (String) partition;
         try {
-            outputStream.write(query.getBytes());
+            getStream(filePath).write(formatted.getBytes());
         } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to save: " + query, e);
+            throw new IllegalArgumentException("Failed to save: " + formatted, e);
         }
     }
 
@@ -70,10 +67,17 @@ public class FileSink extends AbstractBufferedSink {
     public void close() {
         super.close();
         try {
-            outputStream.close();
+            for (BufferedOutputStream bufferedOutputStream : outputStreams.values()) {
+                bufferedOutputStream.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected Object getPartition(Template template, Map<String, Object> map) {
+        return pathProvider.getFilePath(template, map);
     }
 
     private Formatter getFormatter(String format) {
@@ -83,7 +87,7 @@ public class FileSink extends AbstractBufferedSink {
             case FileFormatConst.TSV:
                 return new SvFormatter(DelimiterConst.TAB);
             case FileFormatConst.JSON:
-                throw new UnsupportedOperationException("json haven't implemented yet");
+                throw new UnsupportedOperationException("json hasn't implemented yet");
             case FileFormatConst.SQL:
                 return new SqlFormatter();
             case FileFormatConst.ES:
@@ -91,5 +95,35 @@ public class FileSink extends AbstractBufferedSink {
             default:
                 throw new IllegalArgumentException("unknown format: " + format);
         }
+    }
+
+    private BufferedOutputStream getStream(String filePath) throws FileNotFoundException {
+        BufferedOutputStream stream = outputStreams.get(filePath);
+        if (stream == null) {
+            File outFile = new File(filePath);
+            if (!outFile.getParentFile().exists()) {
+                outFile.getParentFile().mkdirs();
+            }
+            stream = new BufferedOutputStream(new FileOutputStream(outFile));
+            outputStreams.put(filePath, stream);
+        }
+        return stream;
+    }
+
+    private PathProvider getPathProvider(Map<String, String> props) {
+        String pathProviderType = props.get(PropConst.PATH_PROVIDER);
+        PathProvider pathProvider;
+        switch (pathProviderType) {
+            case PathProviderConst.CONST:
+                pathProvider = new ConstPathProvider();
+                break;
+            case PathProviderConst.TIME:
+                pathProvider = new TimeBasedPathProvider();
+                break;
+            default:
+                throw new IllegalArgumentException("unknown path provider: " + pathProviderType);
+        }
+        pathProvider.init(props);
+        return pathProvider;
     }
 }

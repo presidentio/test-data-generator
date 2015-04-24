@@ -43,7 +43,7 @@ public abstract class AbstractJdbcSink extends AbstractBufferedSink {
     }
 
     @Override
-    public void write(String request) {
+    public void write(Object partition, String request) {
         try {
             connection.prepareStatement(request).execute();
         } catch (SQLException e) {

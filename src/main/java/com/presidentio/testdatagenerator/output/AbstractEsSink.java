@@ -44,7 +44,7 @@ public abstract class AbstractEsSink extends AbstractBufferedSink {
     }
 
     @Override
-    public void write(String query) {
+    public void write(Object partition, String query) {
         try {
             byte[] bytes = query.getBytes();
             client.prepareBulk().add(bytes, 0, bytes.length, false).execute().actionGet();

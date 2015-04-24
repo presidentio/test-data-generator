@@ -36,5 +36,8 @@ public class PropConst {
     public static final String OP = "op";
     public static final String FORMAT = "format";
     public static final String HEADER = "header";
+    public static final String SUFFIX = "suffix";
+    public static final String PREFIX = "prefix";
+    public static final String PATH_PROVIDER = "pathProvider";
 
 }

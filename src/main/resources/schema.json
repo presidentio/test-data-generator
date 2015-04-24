@@ -1,8 +1,10 @@
 {
   "output": {
-    "type": "sql-file",
+    "type": "file",
     "props": {
-      "file": "./a.sql"
+      "pathProvider": "const",
+      "file": "a.sql",
+      "format": "sql"
     }
   },
   "templates": [
@@ -47,8 +49,8 @@
           "type": "int",
           "provider": {
             "name": "select",
-            "props":{
-              "items":"11,15,18,19,20,23,40,50"
+            "props": {
+              "items": "11,15,18,19,20,23,40,50"
             }
           }
         }
@@ -133,7 +135,7 @@
           }
         }
       ],
-      "childs":[
+      "childs": [
         "exercise1"
       ]
     },

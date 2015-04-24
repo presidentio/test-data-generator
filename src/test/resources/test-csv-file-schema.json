@@ -2,6 +2,7 @@
     "output": {
         "type": "file",
         "props": {
+            "pathProvider":"const",
             "file": "${tmp}/a.csv"
         }
     },
