@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.util.concurrent.ForkJoinPool;
 public class Generator {
 
     private boolean async = false;
+    private Integer threadCount = Runtime.getRuntime().availableProcessors();
 
     private ValueProviderFactory valueProviderFactory = new DefaultValueProviderFactory();
     private SinkFactory sinkFactory = new SinkFactory();
@@ -37,7 +38,7 @@ public class Generator {
         initTask.setValueProviderFactory(valueProviderFactory);
         initTask.setAsync(async);
         if (async) {
-            ForkJoinPool forkJoinPool = new ForkJoinPool();
+            ForkJoinPool forkJoinPool = new ForkJoinPool(threadCount);
             forkJoinPool.invoke(initTask);
         } else {
             initTask.compute();
@@ -72,5 +73,13 @@ public class Generator {
 
     public void setAsync(boolean async) {
         this.async = async;
+    }
+
+    public Integer getThreadCount() {
+        return threadCount;
+    }
+
+    public void setThreadCount(Integer threadCount) {
+        this.threadCount = threadCount;
     }
 }

@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,13 @@ import java.io.IOException;
 
 public class Starter {
 
-    @Parameter(names = "-s", required = true)
+    @Parameter(names = "-a", description = "async, default true")
+    private Boolean async = true;
+
+    @Parameter(names = "-th", description = "thread count, work only when async true, default is processors count")
+    private Integer threadCount;
+
+    @Parameter(names = "-s", required = true, description = "Generation schema json file")
     private String schemaFile;
 
     public static void main(String[] args) throws IOException {
@@ -44,6 +50,10 @@ public class Starter {
         SchemaSerializer schemaSerializer = new JsonSchemaSerializer();
         Schema schema = schemaSerializer.deserialize(new FileInputStream(schemaFile));
         Generator generator = new Generator();
+        if (threadCount != null) {
+            generator.setThreadCount(threadCount);
+        }
+        generator.setAsync(async);
         generator.generate(schema);
     }
 
