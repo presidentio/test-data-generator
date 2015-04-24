@@ -1,0 +1,192 @@
+{
+  "output": {
+    "type": "kafka",
+    "props": {
+      "brokerList": "localhost:9092"
+    }
+  },
+  "templates": [
+    {
+      "id": "user1",
+      "count": 10,
+      "name": "user",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "userId++"
+            }
+          }
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "provider": {
+            "name": "email"
+          }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "provider": {
+            "name": "people-name"
+          }
+        }
+      ],
+      "childs": [
+        "training1"
+      ]
+    },
+    {
+      "id": "user2",
+      "count": 1,
+      "name": "user",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "userId++"
+            }
+          }
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "provider": {
+            "name": "const",
+            "props": {
+              "value": "test@email.com"
+            }
+          }
+        }
+      ],
+      "childs": [
+        "training1"
+      ]
+    },
+    {
+      "id": "training1",
+      "count": 5,
+      "name": "training",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "trainingId++"
+            }
+          }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "provider": {
+            "name": "random",
+            "props": {
+              "size": 10
+            }
+          }
+        },
+        {
+          "name": "week",
+          "type": "int",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "0 | 1 | 8"
+            }
+          }
+        },
+        {
+          "name": "userId",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "parent.id"
+            }
+          }
+        }
+      ],
+      "childs": [
+        "exercise1"
+      ]
+    },
+    {
+      "id": "exercise1",
+      "count": 5,
+      "name": "exercise",
+      "fields": [
+        {
+          "name": "id",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "exerciseId++"
+            }
+          }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "provider": {
+            "name": "random",
+            "props": {
+              "size": 10
+            }
+          }
+        },
+        {
+          "name": "userId",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "parent.parent.id"
+            }
+          }
+        },
+        {
+          "name": "trainingId",
+          "type": "long",
+          "provider": {
+            "name": "expr",
+            "props": {
+              "expr": "parent.id"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "userId",
+      "type": "long",
+      "initValue": "1"
+    },
+    {
+      "name": "trainingId",
+      "type": "long",
+      "initValue": "1"
+    },
+    {
+      "name": "exerciseId",
+      "type": "long",
+      "initValue": "1"
+    }
+  ],
+  "root": [
+    "user1",
+    "user2"
+  ]
+}

@@ -13,15 +13,10 @@
  */
 package com.presidentio.testdatagenerator.output;
 
-import com.presidentio.testdatagenerator.cons.DelimiterConst;
-import com.presidentio.testdatagenerator.cons.FileFormatConst;
 import com.presidentio.testdatagenerator.cons.PathProviderConst;
 import com.presidentio.testdatagenerator.cons.PropConst;
 import com.presidentio.testdatagenerator.model.Template;
-import com.presidentio.testdatagenerator.output.formatter.EsFormatter;
-import com.presidentio.testdatagenerator.output.formatter.Formatter;
-import com.presidentio.testdatagenerator.output.formatter.SqlFormatter;
-import com.presidentio.testdatagenerator.output.formatter.SvFormatter;
+import com.presidentio.testdatagenerator.output.formatter.*;
 import com.presidentio.testdatagenerator.output.path.ConstPathProvider;
 import com.presidentio.testdatagenerator.output.path.PathProvider;
 import com.presidentio.testdatagenerator.output.path.TimeBasedPathProvider;
@@ -32,6 +27,8 @@ import java.util.Map;
 
 public class FileSink extends AbstractBufferedSink {
 
+    private FormatterFactory formatterFactory = new DefaultFormatterFactory();
+
     private Map<String, BufferedOutputStream> outputStreams = new HashMap<>();
 
     private PathProvider pathProvider;
@@ -39,18 +36,7 @@ public class FileSink extends AbstractBufferedSink {
     @Override
     public void init(Map<String, String> props) {
         pathProvider = getPathProvider(props);
-
-        String format = props.get(PropConst.FORMAT);
-        if (format == null) {
-            format = FileFormatConst.CSV;
-        }
-        if (!FileFormatConst.ALL.contains(format)) {
-            throw new IllegalArgumentException(PropConst.FORMAT + " is incorrect. Must be one of: "
-                    + FileFormatConst.ALL);
-        }
-        Formatter formatter = getFormatter(format);
-        formatter.init(props);
-        init(formatter);
+        init(formatterFactory.buildFormatter(props));
     }
 
     @Override
@@ -78,23 +64,6 @@ public class FileSink extends AbstractBufferedSink {
     @Override
     protected Object getPartition(Template template, Map<String, Object> map) {
         return pathProvider.getFilePath(template, map);
-    }
-
-    private Formatter getFormatter(String format) {
-        switch (format) {
-            case FileFormatConst.CSV:
-                return new SvFormatter(DelimiterConst.COMMA);
-            case FileFormatConst.TSV:
-                return new SvFormatter(DelimiterConst.TAB);
-            case FileFormatConst.JSON:
-                throw new UnsupportedOperationException("json hasn't implemented yet");
-            case FileFormatConst.SQL:
-                return new SqlFormatter();
-            case FileFormatConst.ES:
-                return new EsFormatter();
-            default:
-                throw new IllegalArgumentException("unknown format: " + format);
-        }
     }
 
     private BufferedOutputStream getStream(String filePath) throws FileNotFoundException {

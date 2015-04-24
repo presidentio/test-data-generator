@@ -33,6 +33,9 @@ public class SinkFactory {
             case SinkTypeConst.ES_DIRECT:
                 sink = new EsDirectSink();
                 break;
+            case SinkTypeConst.KAFKA:
+                sink = new KafkaSink();
+                break;
             default:
                 throw new IllegalArgumentException("Unknown sink type: " + output.getType());
         }

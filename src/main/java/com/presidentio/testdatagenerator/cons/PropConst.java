@@ -39,5 +39,7 @@ public class PropConst {
     public static final String SUFFIX = "suffix";
     public static final String PREFIX = "prefix";
     public static final String PATH_PROVIDER = "pathProvider";
+    public static final String BROKER_LIST = "brokerList";
+    public static final String GENDER = "gender";
 
 }

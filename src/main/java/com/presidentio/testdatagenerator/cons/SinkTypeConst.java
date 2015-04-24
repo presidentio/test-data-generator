@@ -19,5 +19,6 @@ public class SinkTypeConst {
     public static final String FILE = "file";
     public static final String SQL_DIRECT = "sql-direct";
     public static final String ES_DIRECT = "es-direct";
+    public static final String KAFKA = "kafka";
 
 }
