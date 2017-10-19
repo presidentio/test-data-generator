@@ -18,9 +18,8 @@ import com.presidentio.testdatagenerator.model.Field;
 import com.presidentio.testdatagenerator.model.Template;
 import com.presidentio.testdatagenerator.provider.ValueProvider;
 import com.presidentio.testdatagenerator.provider.ValueProviderFactory;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.RecursiveAction;
@@ -42,7 +41,7 @@ public class GenerateTask extends RecursiveAction {
     private void generateEntity(final Context context, final Template template) {
         List<GenerateTask> forkJoinTasks = new ArrayList<>(template.getCount());
         for (int i = 0; i < template.getCount(); i++) {
-            Map<String, Object> entity = new HashMap<>();
+            Map<String, Object> entity = new LinkedHashMap<>();
             for (Field field : template.getFields()) {
                 ValueProvider valueProvider = valueProviderFactory.buildValueProvider(field.getProvider());
                 entity.put(field.getName(), valueProvider.nextValue(context, field));
