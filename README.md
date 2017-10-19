@@ -15,8 +15,9 @@ Tools to generate data for testing
 
 ```
 Schema schema = new SchemaBuilder().fromResource("schema.json").build();
-Generator generator = new Generator();
+OneTimeGenerator generator = new OneTimeGenerator();
 generator.generate(schema);
+schema.getOutput();
 ```
 
 ## Value Providers
@@ -82,7 +83,7 @@ Write sql formatted data to file.
 
 Properties:
 * *file* - required, file to save data
-* *format* - one of csv, tsv, sv(require *deimiter* property), sql, es(require *index* property), default is csv
+* *format* - one of csv, tsv, sv (requires *delimiter* property, optionally also a boolean *header* property), sql, es (requires *index* property), default is csv
 
 Note: Be care with first three formats, they works well only with identically structured templates  
 
