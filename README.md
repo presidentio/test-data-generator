@@ -20,6 +20,14 @@ generator.generate(schema);
 schema.getOutput();
 ```
 
+## Types
+
+* *string* - a string value, formatted accordingly
+* *long* - a long integer value
+* *int* - an integer value
+* *boolean* - true or false
+* *verbatim* - Outputs the value as typed in (without the external quotes); useful for sql functions such as now()
+
 ## Value Providers
 
 ##### const
