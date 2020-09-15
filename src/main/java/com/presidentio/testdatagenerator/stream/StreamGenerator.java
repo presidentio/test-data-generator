@@ -36,7 +36,7 @@ public class StreamGenerator extends AbstractGenerator {
         for (String rootTemplateId : schema.getRoot()) {
             final Template rootTemplate = context.getTemplates().get(rootTemplateId);
             if (rootTemplate == null) {
-                throw new IllegalArgumentException("Template with id does not defined: " + rootTemplateId);
+                throw new IllegalArgumentException("Template not defined: " +  rootTemplateId);
             }
             weightSum += rootTemplate.getCount();
             rootTemplates.add(rootTemplate);

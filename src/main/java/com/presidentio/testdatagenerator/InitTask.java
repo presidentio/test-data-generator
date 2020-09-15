@@ -45,7 +45,7 @@ public class InitTask extends RecursiveAction {
         for (String rootTemplateId : roots) {
             final Template rootTemplate = context.getTemplates().get(rootTemplateId);
             if (rootTemplate == null) {
-                throw new IllegalArgumentException("Template with id does not defined: " + rootTemplateId);
+                throw new IllegalArgumentException("Template not defined: " +  rootTemplateId);
             }
             GenerateTask task = new GenerateTask(context, rootTemplate, valueProviderFactory);
             task.setAsync(async);
