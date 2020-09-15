@@ -9,7 +9,7 @@ Tools to generate data for testing
 <dependency>
     <groupId>com.presidentio</groupId>
     <artifactId>test-data-generator</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
@@ -159,7 +159,7 @@ Schema schema = new SchemaBuilder()
           }
         }
       ],
-      "childs": [
+      "children": [
         "training1"
       ]
     },
@@ -213,7 +213,7 @@ Schema schema = new SchemaBuilder()
                     }
                 }
             ],
-            "childs": [
+            "children": [
                 "training1"
             ]
         },
@@ -243,7 +243,7 @@ Schema schema = new SchemaBuilder()
                     }
                 }
             ],
-            "childs": [
+            "children": [
                 "training1"
             ]
         },
@@ -293,7 +293,7 @@ Schema schema = new SchemaBuilder()
                     }
                 }
             ],
-            "childs":[
+            "children":[
                 "exercise1"
             ]
         },

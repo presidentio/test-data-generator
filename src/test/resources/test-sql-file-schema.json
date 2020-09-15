@@ -19,7 +19,7 @@
                     "provider": {
                         "name": "expr",
                         "props": {
-                            "expr": "userId++"
+                            "expr": "userId"
                         }
                     }
                 },
@@ -36,9 +36,30 @@
                     "provider": {
                         "name": "people-name"
                     }
+                },
+                {
+                    "name": "createTime",
+                    "type": "verbatim",
+                    "provider": {
+                        "name": "const",
+                        "props": {
+                            "value": "now()"
+                        }
+                    }
+                },
+                {
+                    "name": "incr",
+                    "type": "long",
+                    "ignored": true,
+                    "provider": {
+                        "name": "expr",
+                        "props": {
+                            "expr": "userId++"
+                        }
+                    }
                 }
             ],
-            "childs": [
+            "children": [
                 "training1"
             ]
         },
@@ -68,7 +89,7 @@
                     }
                 }
             ],
-            "childs": [
+            "children": [
                 "training1"
             ]
         },
@@ -118,7 +139,7 @@
                     }
                 }
             ],
-            "childs":[
+            "children":[
                 "exercise1"
             ]
         },
