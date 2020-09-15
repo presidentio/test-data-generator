@@ -16,7 +16,9 @@ package com.presidentio.testdatagenerator.context;
 import com.presidentio.testdatagenerator.model.Template;
 import com.presidentio.testdatagenerator.output.Sink;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Context {
 
@@ -25,6 +27,8 @@ public class Context {
     private Map<String, Template> templates;
 
     private Map<String, Object> variables;
+
+    private Random random = new Random();
 
     private Sink sink;
 
@@ -57,4 +61,13 @@ public class Context {
         return templates;
     }
 
+    public Random getRandom() {
+        return random;
+    }
+
+    public Object selectFrom(List<Object> objects)
+    {
+        int limit = objects.size();
+        return objects.get(random.nextInt(limit));
+    }
 }
