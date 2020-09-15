@@ -19,6 +19,7 @@ public class TypeConverter {
 
     public static <T> T convert(String value, String type) {
         switch (type) {
+            case TypeConst.VERBATIM:
             case TypeConst.STRING:
                 return (T) value;
             case TypeConst.LONG:

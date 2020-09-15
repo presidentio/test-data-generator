@@ -19,5 +19,6 @@ public class TypeConst {
     public static final String LONG = "long";
     public static final String INT = "int";
     public static final String BOOLEAN = "boolean";
+    public static final String VERBATIM = "verbatim";
 
 }

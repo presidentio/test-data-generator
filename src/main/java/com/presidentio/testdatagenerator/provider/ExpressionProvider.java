@@ -45,6 +45,7 @@ public class ExpressionProvider implements ValueProvider {
     public Object nextValue(Context context, Field field) {
         Class type;
         switch (field.getType()) {
+            case TypeConst.VERBATIM:
             case TypeConst.STRING:
                 type = String.class;
                 break;
