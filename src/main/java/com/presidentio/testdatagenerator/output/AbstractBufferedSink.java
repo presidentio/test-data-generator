@@ -21,12 +21,13 @@ import java.util.*;
 public abstract class AbstractBufferedSink implements Sink {
 
     private static final String DEFAULT_PARTITION = "default";
+    private static final int DEFAULT_BUFFER_SIZE = 1000000;
 
-    private Map<Template, Map<Object, List<Map<String, Object>>>> buffer = new HashMap<>();
+    private LinkedHashMap<Template, Map<Object, List<Map<String, Object>>>> buffer = new LinkedHashMap<>();
 
     private Formatter formatter;
 
-    private int bufferSize = 1000;
+    private int bufferSize = DEFAULT_BUFFER_SIZE;
     private boolean bufferingEnabled = true;
 
     protected void init(Formatter formatter) {

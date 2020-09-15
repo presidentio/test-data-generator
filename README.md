@@ -9,7 +9,7 @@ Tools to generate data for testing
 <dependency>
     <groupId>com.presidentio</groupId>
     <artifactId>test-data-generator</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.5-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -19,6 +19,14 @@ OneTimeGenerator generator = new OneTimeGenerator();
 generator.generate(schema);
 schema.getOutput();
 ```
+
+## Types
+
+* *string* - a string value, formatted accordingly
+* *long* - a long integer value
+* *int* - an integer value
+* *boolean* - true or false
+* *verbatim* - Outputs the value as typed in (without the external quotes); useful for sql functions such as now()
 
 ## Value Providers
 
@@ -159,7 +167,7 @@ Schema schema = new SchemaBuilder()
           }
         }
       ],
-      "childs": [
+      "children": [
         "training1"
       ]
     },
@@ -213,7 +221,7 @@ Schema schema = new SchemaBuilder()
                     }
                 }
             ],
-            "childs": [
+            "children": [
                 "training1"
             ]
         },
@@ -243,7 +251,7 @@ Schema schema = new SchemaBuilder()
                     }
                 }
             ],
-            "childs": [
+            "children": [
                 "training1"
             ]
         },
@@ -293,7 +301,7 @@ Schema schema = new SchemaBuilder()
                     }
                 }
             ],
-            "childs":[
+            "children":[
                 "exercise1"
             ]
         },

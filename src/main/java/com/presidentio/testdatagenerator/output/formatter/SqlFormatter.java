@@ -24,7 +24,7 @@ public class SqlFormatter implements Formatter {
 
     public static final String INSERT_TEMPlATE = "INSERT INTO %s %s VALUES %s;\n";
     public static final String MULTI_INSERT_TEMPlATE_START = "INSERT INTO %s %s VALUES \n";
-    public static final String MULTI_INSERT_TEMPlATE_END = ";";
+    public static final String MULTI_INSERT_TEMPlATE_END = ";\n";
     public static final String COMMA = ", ";
 
     private static final List<String> JDBC_DRIVERS_WITH_MULTI_INSERT = Arrays.asList("org.postgresql.Driver",
@@ -51,6 +51,10 @@ public class SqlFormatter implements Formatter {
         StringBuilder columns = new StringBuilder("(");
         boolean first = true;
         for (Field field : template.getFields()) {
+            if (field.isIgnored())
+            {
+                continue;
+            }
             if (!first) {
                 columns.append(COMMA);
             }
@@ -65,6 +69,10 @@ public class SqlFormatter implements Formatter {
         StringBuilder values = new StringBuilder("(");
         boolean first = true;
         for (Field field : template.getFields()) {
+            if (field.isIgnored())
+            {
+                continue;
+            }
             if (!first) {
                 values.append(COMMA);
             }
@@ -108,10 +116,9 @@ public class SqlFormatter implements Formatter {
         switch (type) {
             case TypeConst.STRING:
                 return "'" + value + "'";
+            case TypeConst.VERBATIM:
             case TypeConst.LONG:
-                return value.toString();
             case TypeConst.INT:
-                return value.toString();
             case TypeConst.BOOLEAN:
                 return value.toString();
             default:

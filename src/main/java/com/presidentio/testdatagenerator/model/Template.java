@@ -33,7 +33,7 @@ public class Template {
 
     private List<Field> fields;
 
-    private List<String> childs = new ArrayList<>();
+    private List<String> children = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -96,19 +96,19 @@ public class Template {
         this.fields = fields;
     }
 
-    public List<String> getChilds() {
+    public List<String> getChildren() {
         List<String> result = new ArrayList<>();
-        if (extendTemplate != null && extendTemplate.getChilds() != null) {
-            result.addAll(extendTemplate.getChilds());
+        if (extendTemplate != null && extendTemplate.getChildren() != null) {
+            result.addAll(extendTemplate.getChildren());
         }
-        if (childs != null) {
-            result.addAll(childs);
+        if (children != null) {
+            result.addAll(children);
         }
         return result;
     }
 
-    public void setChilds(List<String> childs) {
-        this.childs = childs;
+    public void setChildren(List<String> children) {
+        this.children = children;
     }
 
     @Override

@@ -20,13 +20,20 @@ public class Field {
 
     private Provider provider;
 
+    private boolean ignored;
+
     public Field() {
     }
 
     public Field(String name, String type, Provider provider) {
+        this(name, type, provider, false);
+    }
+
+    public Field(String name, String type, Provider provider, boolean ignored) {
         this.name = name;
         this.type = type;
         this.provider = provider;
+        this.ignored = ignored;
     }
 
     public String getName() {
@@ -51,5 +58,13 @@ public class Field {
 
     public void setProvider(Provider provider) {
         this.provider = provider;
+    }
+
+    public boolean isIgnored() {
+        return ignored;
+    }
+
+    public void setIgnored(boolean ignored) {
+        this.ignored = ignored;
     }
 }

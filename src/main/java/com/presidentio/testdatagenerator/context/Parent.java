@@ -13,7 +13,9 @@
  */
 package com.presidentio.testdatagenerator.context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Parent extends HashMap<String, Object> {
@@ -34,5 +36,12 @@ public class Parent extends HashMap<String, Object> {
 
     public void setParent(Parent parent) {
         this.parent = parent;
+    }
+
+    public Object addToKey(String key, Object o)
+    {
+        List<Object> entries = (List<Object>)this.computeIfAbsent(key, k -> new ArrayList<>());
+        entries.add(o);
+        return o;
     }
 }

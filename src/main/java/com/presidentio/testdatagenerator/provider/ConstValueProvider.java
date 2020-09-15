@@ -41,6 +41,7 @@ public class ConstValueProvider implements ValueProvider {
     public Object nextValue(Context context, Field field) {
         String type = field.getType();
         switch (type) {
+            case TypeConst.VERBATIM:
             case TypeConst.STRING:
                 return value;
             case TypeConst.LONG:
